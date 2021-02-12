@@ -1,4 +1,4 @@
-package uk.co.spicatech.spacex
+package com.sealstudios.spacex
 
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -1,4 +1,4 @@
-package uk.co.spicatech.spacex
+package com.sealstudios.spacex
 
 import org.junit.Test
 
