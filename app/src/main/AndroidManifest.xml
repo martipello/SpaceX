@@ -3,7 +3,6 @@
     package="com.sealstudios.spacex">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,6 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".SpaceXApp"
         android:theme="@style/Theme.SpaceX">
         <activity
             android:name="com.sealstudios.spacex.MainActivity"

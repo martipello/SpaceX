@@ -21,14 +21,19 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", "\"https://api.spacexdata.com/v4\""
+            buildConfigField "String", "BASE_URL", "\"https://api.spacexdata.com/v4/\""
         }
         release {
-            buildConfigField "String", "BASE_URL", "\"https://api.spacexdata.com/v4\""
+            buildConfigField "String", "BASE_URL", "\"https://api.spacexdata.com/v4/\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -57,6 +62,7 @@ dependencies {
 
     // hilt
     implementation "com.google.dagger:hilt-android:$rootProject.hilt_version"
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hilt_version"
 
     // lifecycle components
