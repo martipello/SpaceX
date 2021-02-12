@@ -1,9 +1,11 @@
 package com.sealstudios.spacex
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.sealstudios.spacex.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,5 +33,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun getTheme(): Resources.Theme? {
+        val theme: Resources.Theme = super.getTheme()
+        theme.applyStyle(R.style.Theme_SpaceX, true)
+        return theme
     }
 }

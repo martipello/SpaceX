@@ -12,11 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".SpaceXApp"
-        android:theme="@style/Theme.SpaceX">
+        android:theme="@style/SplashTheme">
         <activity
+            android:theme="@style/SplashTheme"
             android:name="com.sealstudios.spacex.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.SpaceX.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

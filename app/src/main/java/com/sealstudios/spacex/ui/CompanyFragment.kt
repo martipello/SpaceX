@@ -71,25 +71,25 @@ fun FragmentCompanyBinding.onData(companyResponse: CompanyResponse) {
                 "and is valued at USD ${formatValuation()}"
     }
 
-    description.visibility = View.VISIBLE
+    content.visibility = View.VISIBLE
     loading.visibility = View.GONE
-    errorLayout.visibility = View.GONE
+    errorLayout.root.visibility = View.GONE
     description.text = formatCompanyDescription()
 
 }
 
 fun FragmentCompanyBinding.onError(errorMessage: String, retry: () -> Unit) {
-    description.visibility = View.GONE
+    content.visibility = View.GONE
     loading.visibility = View.GONE
-    errorLayout.visibility = View.VISIBLE
-    errorText.text = errorMessage
-    retryButton.setOnClickListener {
+    errorLayout.root.visibility = View.VISIBLE
+    errorLayout.errorText.text = errorMessage
+    errorLayout.retryButton.setOnClickListener {
         retry()
     }
 }
 
 fun FragmentCompanyBinding.onLoading() {
-    description.visibility = View.GONE
+    content.visibility = View.GONE
     loading.visibility = View.VISIBLE
-    errorLayout.visibility = View.GONE
+    errorLayout.root.visibility = View.GONE
 }
