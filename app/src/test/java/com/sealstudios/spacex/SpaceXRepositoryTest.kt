@@ -4,7 +4,7 @@ import com.sealstudios.spacex.network.OkHttpClient
 import com.sealstudios.spacex.network.ResponseHandler
 import com.sealstudios.spacex.network.Status
 import com.sealstudios.spacex.repositories.SpaceXRepository
-import com.sealstudios.spacex.services.SpaceXService
+import com.sealstudios.spacex.network.SpaceXService
 import kotlinx.coroutines.runBlocking
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockResponse

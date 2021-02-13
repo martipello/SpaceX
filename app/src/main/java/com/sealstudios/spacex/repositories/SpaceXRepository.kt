@@ -3,7 +3,7 @@ package com.sealstudios.spacex.repositories
 import com.sealstudios.spacex.network.Resource
 import com.sealstudios.spacex.network.ResponseHandler
 import com.sealstudios.spacex.objects.CompanyResponse
-import com.sealstudios.spacex.services.SpaceXService
+import com.sealstudios.spacex.network.SpaceXService
 import javax.inject.Inject
 
 

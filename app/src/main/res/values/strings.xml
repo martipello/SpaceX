@@ -13,4 +13,5 @@
     <string name="company_description">%s was founded by %s in %d. It has now %d employees, %d launch sites, and is valued at USD %d</string>
     <string name="error">"Oops, something went wrong 🤔 "</string>
     <string name="retry">Retry</string>
+    <string name="launches">Launches</string>
 </resources>
