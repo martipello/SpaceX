@@ -2,8 +2,8 @@ package com.sealstudios.spacex.repositories
 
 import com.sealstudios.spacex.network.Resource
 import com.sealstudios.spacex.network.ResponseHandler
-import com.sealstudios.spacex.objects.CompanyResponse
 import com.sealstudios.spacex.network.SpaceXService
+import com.sealstudios.spacex.objects.CompanyResponse
 import javax.inject.Inject
 
 

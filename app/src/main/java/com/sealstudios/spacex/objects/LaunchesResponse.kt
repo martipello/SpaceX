@@ -3,7 +3,7 @@ package com.sealstudios.spacex.objects
 data class LaunchesResponse(
     val id: String?,
     val name: String?,
-    val launchLinks: LaunchLinks?,
+    val links: LaunchLinks?,
     val static_fire_date_utc: String?,
     val static_fire_date_unix: Long?,
     val tdb: Boolean?,
@@ -11,7 +11,7 @@ data class LaunchesResponse(
     val window: Int?,
     val rocket: String?,
     val success: Boolean?,
-    val failures: List<String>,
+    val failures: List<Failure>,
     val details: String?,
     val crew: List<String>,
     val ships: List<String>,
@@ -26,6 +26,7 @@ data class LaunchesResponse(
     val date_precision: String?,
     val upcoming: Boolean?,
     val cores: List<Core>,
+    val fairings: Fairings
 )
 
 data class Core(
@@ -66,4 +67,17 @@ data class Reddit (
 data class Flikr (
     val small: List<String>,
     val original: List<String>,
+)
+
+data class Fairings (
+    val reused: Boolean?,
+    val recovery_attempt: String?,
+    val recovered: Boolean?,
+    val ships: List<String>,
+)
+
+data class Failure(
+    val time: Int?,
+    val altitude: Int?,
+    val reason: String?
 )
