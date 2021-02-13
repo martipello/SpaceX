@@ -1,4 +1,4 @@
-package com.sealstudios.spacex.di.network
+package com.sealstudios.spacex.network
 
 import android.content.Context
 import android.net.ConnectivityManager

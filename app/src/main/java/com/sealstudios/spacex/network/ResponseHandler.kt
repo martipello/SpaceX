@@ -1,6 +1,5 @@
 package com.sealstudios.spacex.network
 
-import com.sealstudios.spacex.di.network.NoConnectivityException
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 
@@ -11,6 +10,7 @@ open class ResponseHandler {
     }
 
     fun <T : Any> handleException(e: Exception): Resource<T> {
+        print("EXCEPTION $e")
         return when (e) {
             is HttpException -> Resource.error(getErrorMessage(e.code()), null, e.code())
             is NoConnectivityException -> Resource.error(
