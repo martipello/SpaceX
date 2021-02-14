@@ -12,7 +12,6 @@ class LaunchesPagingAdapter(private val requestManager: RequestManager) :
     PagingDataAdapter<LaunchResponse, LaunchViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchViewHolder {
-
         return LaunchViewHolder(
             LaunchViewHolderBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             requestManager

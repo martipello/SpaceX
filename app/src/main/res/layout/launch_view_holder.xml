@@ -134,4 +134,5 @@
                 android:id="@+id/successful_launch_check_box"/>
 
         </LinearLayout>
+
 </LinearLayout>
