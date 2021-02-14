@@ -13,7 +13,7 @@ import com.bumptech.glide.RequestManager
 import com.sealstudios.spacex.R
 import com.sealstudios.spacex.databinding.FragmentLaunchesBinding
 import com.sealstudios.spacex.ui.adapters.LaunchesPagingAdapter
-import com.sealstudios.spacex.ui.adapters.utils.LaunchesListDecoration
+import com.sealstudios.spacex.ui.adapters.utils.LaunchesListDividerDecoration
 import com.sealstudios.spacex.ui.viewmodels.LaunchesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -57,7 +57,12 @@ class LaunchesFragment : Fragment() {
 
     private fun setUpRecyclerView() = binding.launchesRecyclerView.apply {
         adapter = launchesPagingAdapter
-        addItemDecoration(LaunchesListDecoration(context.resources.getDimensionPixelSize(R.dimen.small_margin_8dp)))
+        addItemDecoration(
+            LaunchesListDividerDecoration(
+                R.drawable.divider,
+                context,
+                context.resources.getDimensionPixelSize(R.dimen.small_margin_8dp)
+            ))
     }
 
     private fun addLoadingStateListener() {

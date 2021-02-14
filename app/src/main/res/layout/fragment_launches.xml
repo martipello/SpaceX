@@ -57,7 +57,10 @@
             android:id="@+id/launches_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:requiresFadingEdge="vertical"
             style="@style/ThemeOverlay.MyBodyText"
+            android:layout_marginBottom="@dimen/medium_margin_16dp"
+            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

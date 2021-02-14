@@ -1,7 +1,7 @@
 package com.sealstudios.spacex.objects
 
-data class PagedLaunchesResponse(
-    val docs: List<LaunchesResponse>?,
+data class PagedLaunchResponse(
+    val docs: List<LaunchResponse>?,
     val totalDocs: Int?,
     val offset: Int?,
     val limit: Int?,

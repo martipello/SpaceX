@@ -3,6 +3,6 @@
     <item
         android:drawable="@color/primaryTextColor"/>
     <item
-        android:drawable="@drawable/ic_space_x_centered_logo"
-        android:gravity="center_vertical"/>
+        android:drawable="@drawable/ic_space_x_logo"
+        android:gravity="center"/>
 </layer-list>
