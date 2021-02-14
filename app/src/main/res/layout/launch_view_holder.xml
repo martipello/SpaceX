@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/medium_margin_16dp"
+        android:layout_marginStart="@dimen/medium_margin_16dp"
+        android:layout_marginBottom="@dimen/medium_margin_16dp"
+        android:id="@+id/launch_image"
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="top"
+        android:contentDescription="@string/mission_patch_image" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium_margin_16dp"
+            android:layout_weight="1">
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/label_barrier"
+                android:layout_width="1dp"
+                android:layout_height="10dp"
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="mission_name_label, mission_date_label, mission_rocket_label" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mission_name_label"
+                android:text="@string/mission_label"
+                style="@style/ThemeOverlay.MyBodyTextBold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mission_date_label"
+                android:text="@string/mission_date_label"
+                android:layout_marginTop="@dimen/small_margin_4dp"
+                app:layout_constraintTop_toBottomOf="@id/mission_name_text"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/ThemeOverlay.MyBodyTextBold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mission_rocket_label"
+                app:layout_constraintTop_toBottomOf="@id/mission_date_text"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/mission_rocket_label"
+                android:layout_marginTop="@dimen/small_margin_4dp"
+                style="@style/ThemeOverlay.MyBodyTextBold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mission_days_since_from_now_label"
+                android:layout_marginTop="@dimen/small_margin_4dp"
+                android:text="@string/mission_days_since_from_now_label"
+                app:layout_constraintTop_toBottomOf="@id/mission_rocket_text"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/ThemeOverlay.MyBodyTextBold"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/mission_name_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingStart="@dimen/small_margin_8dp"
+                android:paddingEnd="@dimen/small_margin_8dp"
+                app:layout_constraintStart_toStartOf="@id/label_barrier"
+                app:layout_constraintTop_toTopOf="@id/mission_name_label"
+                style="@style/ThemeOverlay.MyBodyText"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/mission_date_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingStart="@dimen/small_margin_8dp"
+                android:paddingEnd="@dimen/small_margin_8dp"
+                app:layout_constraintStart_toStartOf="@id/label_barrier"
+                app:layout_constraintTop_toTopOf="@id/mission_date_label"
+                style="@style/ThemeOverlay.MyBodyText"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/mission_rocket_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingStart="@dimen/small_margin_8dp"
+                android:paddingEnd="@dimen/small_margin_8dp"
+                app:layout_constraintStart_toStartOf="@id/label_barrier"
+                app:layout_constraintTop_toTopOf="@id/mission_rocket_label"
+                style="@style/ThemeOverlay.MyBodyText"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/mission_days_since_from_now_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingStart="@dimen/small_margin_8dp"
+                android:paddingEnd="@dimen/small_margin_8dp"
+                app:layout_constraintStart_toEndOf="@id/mission_days_since_from_now_label"
+                app:layout_constraintTop_toTopOf="@id/mission_days_since_from_now_label"
+                style="@style/ThemeOverlay.MyBodyText"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="@dimen/medium_margin_16dp"
+            android:layout_marginTop="@dimen/medium_margin_16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/launch_success"
+                style="@style/ThemeOverlay.MyCaptionText"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:id="@+id/successful_launch_check_box"/>
+
+        </LinearLayout>
+</LinearLayout>

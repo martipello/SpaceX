@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@color/primaryTextColor"/>
+        android:drawable="@color/primaryColor"/>
     <item
-        android:drawable="@drawable/ic_space_x_centered_logo"
-        android:gravity="center_vertical"/>
+        android:drawable="@drawable/ic_space_x_logo_white"
+        android:gravity="center"/>
 </layer-list>

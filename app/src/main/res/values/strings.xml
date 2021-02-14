@@ -13,4 +13,11 @@
     <string name="company_description">%s was founded by %s in %d. It has now %d employees, %d launch sites, and is valued at USD %d</string>
     <string name="error">"Oops, something went wrong 🤔 "</string>
     <string name="retry">Retry</string>
+    <string name="launches">Launches</string>
+    <string name="mission_label">Mission :</string>
+    <string name="mission_date_label">Date :</string>
+    <string name="mission_rocket_label">Rocket :</string>
+    <string name="mission_days_since_from_now_label">Days %s now :</string>
+    <string name="mission_patch_image">mission patch image</string>
+    <string name="launch_success">Successful launch</string>
 </resources>
