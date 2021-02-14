@@ -61,7 +61,7 @@ class LaunchViewHolder(
 
     private fun setImage(url: String?) {
         requestManager.load(url)
-            .placeholder(R.mipmap.ic_launcher_round)
+            .placeholder(R.drawable.ic_space_x_logo)
             .into(launchViewHolderBinding.launchImage)
     }
 
