@@ -23,7 +23,7 @@ class LaunchResponsePagingSource(private val spaceXService: SpaceXService) :
             LoadResult.Page(
                 data = data,
                 prevKey = prevKey,
-                nextKey = currentLoadingPageKey.plus(1)
+                nextKey = if (response.body()?.hasNextPage == false) null else currentLoadingPageKey + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
