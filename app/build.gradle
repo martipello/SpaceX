@@ -100,4 +100,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     testImplementation "androidx.paging:paging-common-ktx:3.0.0-beta01"
+
+    testImplementation "io.mockk:mockk:1.10.6"
+    androidTestImplementation "io.mockk:mockk-android:1.10.6"
 }
