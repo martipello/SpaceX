@@ -1,11 +1,10 @@
 package com.sealstudios.spacex.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.sealstudios.spacex.network.SpaceXService
-import com.sealstudios.spacex.objects.LaunchesQueryData
 import com.sealstudios.spacex.objects.LaunchResponse
+import com.sealstudios.spacex.objects.LaunchesQueryData
 import com.sealstudios.spacex.objects.Options
 
 class LaunchResponsePagingSource(private val spaceXService: SpaceXService) :
@@ -15,7 +14,14 @@ class LaunchResponsePagingSource(private val spaceXService: SpaceXService) :
         return try {
             val currentLoadingPageKey = params.key ?: 1
             val response =
-                spaceXService.queryLaunches(LaunchesQueryData(options = Options(limit = 20, page = currentLoadingPageKey)))
+                spaceXService.queryLaunches(
+                    LaunchesQueryData(
+                        options = Options(
+                            limit = 20,
+                            page = currentLoadingPageKey
+                        )
+                    )
+                )
             val data = response.body()?.docs ?: emptyList()
 
             val prevKey = if (currentLoadingPageKey == 1) null else currentLoadingPageKey - 1
@@ -23,7 +29,7 @@ class LaunchResponsePagingSource(private val spaceXService: SpaceXService) :
             LoadResult.Page(
                 data = data,
                 prevKey = prevKey,
-                nextKey = currentLoadingPageKey.plus(1)
+                nextKey = if (response.body()?.hasNextPage == false) null else currentLoadingPageKey + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

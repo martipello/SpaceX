@@ -21,7 +21,7 @@ class LaunchesViewModel @Inject constructor(
     private fun pagedLiveData(): LiveData<PagingData<LaunchResponse>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = 3,
                 enablePlaceholders = true,
             )
         ) {

@@ -8,7 +8,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CompanyViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
     private val spaceXRepository: SpaceXRepository
 ) : ViewModel() {
 

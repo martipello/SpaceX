@@ -1,5 +1,6 @@
 package com.sealstudios.spacex.ui
 
+import LaunchesLoadStateAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,21 +57,28 @@ class LaunchesFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() = binding.launchesRecyclerView.apply {
-        adapter = launchesPagingAdapter
+        adapter = launchesPagingAdapter.withLoadStateFooter(footer = LaunchesLoadStateAdapter { launchesPagingAdapter.retry() })
         addItemDecoration(
             LaunchesListDividerDecoration(
                 R.drawable.divider,
                 context,
                 context.resources.getDimensionPixelSize(R.dimen.small_margin_8dp)
-            ))
+            )
+        )
     }
 
     private fun addLoadingStateListener() {
         launchesPagingAdapter.addLoadStateListener {
-            if (it.refresh == LoadState.Loading) {
-                binding.onLoading()
-            } else {
-                binding.onData()
+            when (it.refresh) {
+                is LoadState.Loading -> {
+                    binding.onLoading()
+                }
+                is LoadState.Error -> {
+                    binding.onError((it.refresh as LoadState.Error).error.localizedMessage)
+                }
+                else -> {
+                    binding.onData()
+                }
             }
         }
     }
@@ -81,10 +89,21 @@ class LaunchesFragment : Fragment() {
         errorLayout.root.visibility = View.GONE
     }
 
-
     private fun FragmentLaunchesBinding.onLoading() {
         content.visibility = View.GONE
         loading.visibility = View.VISIBLE
         errorLayout.root.visibility = View.GONE
+    }
+
+    private fun FragmentLaunchesBinding.onError(errorMessage: String?) {
+        content.visibility = View.GONE
+        loading.visibility = View.GONE
+        errorLayout.root.visibility = View.VISIBLE
+        errorMessage?.let{
+            errorLayout.errorText.text = it
+        }
+        errorLayout.retryButton.setOnClickListener {
+            launchesPagingAdapter.refresh()
+        }
     }
 }

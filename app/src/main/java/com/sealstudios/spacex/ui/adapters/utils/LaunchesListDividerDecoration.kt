@@ -24,10 +24,9 @@ class LaunchesListDividerDecoration constructor(
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        if (parent.getChildAdapterPosition(view) != 0) {
-            outRect.top = margin
-        }
-        if (parent.getChildAdapterPosition(view) != parent.childCount) {
+        outRect.top = margin
+
+        if (parent.getChildAdapterPosition(view) == parent.childCount) {
             outRect.bottom = margin
         }
 
