@@ -47,13 +47,11 @@ class SpaceXRepositoryTest {
     @Test
     fun getCompanyResponseSuccess() {
         runBlocking {
-
             mockWebServer.enqueue(
                 MockResponse()
                     .setResponseCode(200)
                     .setBody("{ \"message\": \"SUCCESS\" }")
             )
-
             val response = spaceXRepository.getCompanyResponse()
             assert(response.status == Status.SUCCESS)
         }
@@ -62,7 +60,6 @@ class SpaceXRepositoryTest {
     @Test
     fun getCompanyResponseError() {
         runBlocking {
-
             mockWebServer.enqueue(
                 MockResponse()
                     .setResponseCode(400)
