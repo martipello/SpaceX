@@ -21,4 +21,5 @@
     <string name="mission_patch_image">mission patch image</string>
     <string name="launch_success">Successful launch</string>
     <string name="filter_label">Filter</string>
+    <string name="sort_label">Sort</string>
 </resources>

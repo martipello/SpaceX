@@ -26,7 +26,7 @@ class LaunchesFragment : Fragment() {
     private val binding get() = _binding!!
     private var _binding: FragmentLaunchesBinding? = null
 
-    private val launchesViewModel: LaunchesViewModel by viewModels()
+    private val launchesViewModel: LaunchesViewModel by viewModels({requireParentFragment()})
     private lateinit var launchesPagingAdapter: LaunchesPagingAdapter
 
     @Inject
