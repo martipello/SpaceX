@@ -3,11 +3,10 @@ package com.sealstudios.spacex.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.sealstudios.spacex.network.SpaceXService
-import com.sealstudios.spacex.objects.*
-import com.sealstudios.spacex.objects.queries.DateQuery
-import com.sealstudios.spacex.objects.queries.SuccessLaunchQuery
+import com.sealstudios.spacex.objects.LaunchResponse
+import com.sealstudios.spacex.objects.LaunchQueryData
 
-class LaunchResponsePagingSource(private val spaceXService: SpaceXService) :
+class LaunchResponsePagingSource(private val spaceXService: SpaceXService, private val launchQueryData: LaunchQueryData) :
     PagingSource<Int, LaunchResponse>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LaunchResponse> {
@@ -15,17 +14,7 @@ class LaunchResponsePagingSource(private val spaceXService: SpaceXService) :
             val currentLoadingPageKey = params.key ?: 1
             val response =
                 spaceXService.queryLaunches(
-                    LaunchesQueryData(
-                        options = Options(
-                            limit = 20,
-                            page = currentLoadingPageKey,
-                            sort = mutableMapOf("date_utc" to "desc")
-                        ),
-                        query = mutableMapOf(
-//                            DateQuery.dateQuery(fromDate = "2017-06-22T00:00:00.000Z", toDate = "2017-06-25T00:00:00.000Z"),
-                            SuccessLaunchQuery.successLaunchQuery(true)
-                        )
-                    )
+                    launchQueryData = launchQueryData.apply { this.options?.page = currentLoadingPageKey }
                 )
             val data = response.body()?.docs ?: emptyList()
 

@@ -3,7 +3,7 @@ package com.sealstudios.spacex.paging
 import androidx.paging.PagingSource
 import com.sealstudios.spacex.network.SpaceXService
 import com.sealstudios.spacex.objects.LaunchResponse
-import com.sealstudios.spacex.objects.LaunchesQueryData
+import com.sealstudios.spacex.objects.LaunchQueryData
 import com.sealstudios.spacex.objects.Options
 import com.sealstudios.spacex.objects.PagedLaunchResponse
 import io.mockk.MockKAnnotations
@@ -34,12 +34,7 @@ class LaunchResponsePagingSourceTest {
     fun load() = runBlocking {
         coEvery {
             spaceXService.queryLaunches(
-                launchesQueryData = LaunchesQueryData(
-                    options = Options(
-                        limit = 20,
-                        page = 1
-                    )
-                )
+                launchQueryData = getDefaultLaunchQueryData()
             )
         } returns Response.success(
             PagedLaunchResponse(
@@ -56,7 +51,7 @@ class LaunchResponsePagingSourceTest {
                 pagingCounter = 1
             )
         )
-        val pagingSource = LaunchResponsePagingSource(spaceXService = spaceXService)
+        val pagingSource = LaunchResponsePagingSource(spaceXService = spaceXService, launchQueryData = getDefaultLaunchQueryData())
         val pagingSourceLoadResult = pagingSource.load(
             PagingSource.LoadParams.Refresh(
                 placeholdersEnabled = false,
@@ -69,5 +64,18 @@ class LaunchResponsePagingSourceTest {
         assertEquals(pagingSourceData, listOf<LaunchResponse>())
 
     }
+
+
+    private fun getDefaultLaunchQueryData(): LaunchQueryData {
+        return LaunchQueryData(
+            options = Options(
+                limit = 20,
+                page = 1,
+                sort = mutableMapOf("date_utc" to "desc")
+            ),
+            query = null
+        )
+    }
+
 
 }
