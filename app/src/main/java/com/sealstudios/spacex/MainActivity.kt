@@ -2,10 +2,7 @@ package com.sealstudios.spacex
 
 import android.content.res.Resources
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.sealstudios.spacex.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,19 +20,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun getTheme(): Resources.Theme? {
+    override fun getTheme(): Resources.Theme {
         val theme: Resources.Theme = super.getTheme()
         theme.applyStyle(R.style.Theme_SpaceX, true)
         return theme
