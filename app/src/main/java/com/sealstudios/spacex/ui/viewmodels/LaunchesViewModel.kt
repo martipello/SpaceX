@@ -6,7 +6,6 @@ import com.sealstudios.spacex.network.SpaceXService
 import com.sealstudios.spacex.objects.LaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunchQueryData
 import com.sealstudios.spacex.objects.LaunchResponse
-import com.sealstudios.spacex.objects.Options
 import com.sealstudios.spacex.paging.LaunchResponsePagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

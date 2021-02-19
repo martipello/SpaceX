@@ -65,6 +65,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$rootProject.hilt_version"
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hilt_version"
+    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0-alpha03'
 
     // lifecycle components
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.archLifecycleVersion"

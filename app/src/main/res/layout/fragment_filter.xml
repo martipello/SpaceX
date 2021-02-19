@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/only_successful_launches_label"
         android:layout_marginStart="@dimen/small_margin_8dp"
-        android:paddingTop="@dimen/small_margin_4dp"
+        android:paddingTop="@dimen/small_margin_8dp"
         android:text="@string/only_show_successful_launches_label"
         app:layout_constraintStart_toEndOf="@id/only_successful_launches_check_box"
         app:layout_constraintTop_toTopOf="@id/only_successful_launches_check_box"
@@ -98,12 +98,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/newest_first"
-            android:id="@+id/sort_ascending"/>
+            android:id="@+id/sort_descending"/>
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/sort_descending"
+            android:id="@+id/sort_ascending"
             android:text="@string/oldest_first"/>
 
     </RadioGroup>
