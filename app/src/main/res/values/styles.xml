@@ -28,6 +28,10 @@
         <item name="colorControlActivated">@color/primaryColor</item>
     </style>
 
+    <style name="Widget.App.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/ThemeOverlay.MyBodyText</item>
+    </style>
+
     <style name="ThemeOverlay.MyTitleText" parent="AppTheme">
         <item name="android:textSize">@dimen/title_text_size</item>
         <item name="android:textColorPrimary">@color/secondaryTextColor</item>

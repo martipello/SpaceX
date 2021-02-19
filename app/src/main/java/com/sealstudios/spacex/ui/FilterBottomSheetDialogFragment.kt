@@ -19,11 +19,9 @@ import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunch
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getFiltersFromQuery
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getLaunchSuccessFromQuery
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isSortOrderAscending
-import com.sealstudios.spacex.objects.queries.SuccessLaunchQuery
 import com.sealstudios.spacex.ui.viewmodels.FilterViewModel
 import com.sealstudios.spacex.ui.viewmodels.LaunchesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.parcel.RawValue
 
 
 @AndroidEntryPoint

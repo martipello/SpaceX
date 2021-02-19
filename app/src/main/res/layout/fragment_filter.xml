@@ -92,7 +92,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/sort_group"
-        app:layout_constraintTop_toBottomOf="@id/sort_divider">
+        android:layout_marginTop="@dimen/small_margin_8dp"
+        android:layout_marginBottom="@dimen/small_margin_8dp"
+        app:layout_constraintTop_toBottomOf="@id/sort_divider"
+        app:layout_constraintBottom_toTopOf="@id/clear_filters_button">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:layout_width="match_parent"
@@ -108,19 +111,20 @@
 
     </RadioGroup>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/clear_filters_button"
         android:text="@string/clear_filters_label"
-        style="@style/ThemeOverlay.MyBodyText"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_marginEnd="@dimen/small_margin_8dp"
+        app:strokeColor="@color/primaryColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sort_group"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/apply_filters_button"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/apply_filters_button"
@@ -128,7 +132,7 @@
         android:layout_marginStart="@dimen/small_margin_8dp"
         style="@style/ThemeOverlay.MyBodyText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sort_group"
+        app:layout_constraintTop_toTopOf="@+id/clear_filters_button"
         app:layout_constraintStart_toEndOf="@id/clear_filters_button"
         app:layout_constraintEnd_toEndOf="parent"/>
 
