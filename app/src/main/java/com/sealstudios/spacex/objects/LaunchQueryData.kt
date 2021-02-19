@@ -15,8 +15,12 @@ data class LaunchQueryData(
     companion object {
 
         fun getLaunchSuccessFromQuery(launchQueryData: LaunchQueryData): Boolean {
-            val successKey = launchQueryData.query?.filterKeys { it == "success" }?.values?.first().toString()
-            return successKey.toBoolean()
+            val successKey = launchQueryData.query?.filterKeys { it == "success" }?.values?.firstOrNull()
+            return if (successKey != null){
+                (successKey as String).toBoolean()
+            } else {
+                false
+            }
         }
 
         fun isSortOrderAscending(launchQueryData: LaunchQueryData): Boolean {
@@ -39,9 +43,9 @@ data class LaunchQueryData(
         ): LaunchQueryData {
             var query = this.query
             if (query != null) {
-                query[key] = "$value"
+                query[key] = value
             } else {
-                query = mutableMapOf(key to "$value")
+                query = mutableMapOf(key to value)
             }
             return this.apply {
                 this.query = query

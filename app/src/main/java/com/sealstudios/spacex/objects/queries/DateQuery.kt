@@ -5,8 +5,8 @@ class DateQuery{
 
         // TODO come up with a more elegant solution to provide dates to filter on
 
-        fun dateQuery(fromDate: String, toDate: String): Pair<String, Any>{
-            return "date_utc" to mutableMapOf(
+        fun dateQuery(fromDate: String, toDate: String): MutableMap<String, String> {
+            return mutableMapOf(
                     "\$gte" to fromDate,
                     "\$lte" to toDate
             )

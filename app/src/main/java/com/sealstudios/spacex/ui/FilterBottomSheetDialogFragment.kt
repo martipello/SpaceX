@@ -21,6 +21,7 @@ import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunch
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getFiltersFromQuery
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getLaunchSuccessFromQuery
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isSortOrderAscending
+import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery
 import com.sealstudios.spacex.ui.viewmodels.FilterViewModel
 import com.sealstudios.spacex.ui.viewmodels.LaunchesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,12 +39,13 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private lateinit var filtersViewModelObserver: Observer<LaunchQueryData>
 
     private lateinit var launchQueryData: LaunchQueryData
+    private val selectedFilters = sortedSetOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFilterBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -125,13 +127,14 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
 
         val allFilters = getAllDateFilters()
-        val selectedFilters = launchQueryData.query?.let { getFiltersFromQuery(it) } ?: listOf()
+//        val selectedFromAndToDates = launchQueryData.query?.let { getFiltersFromQuery(it) } ?: listOf()
 
         binding.filterChipGroup.removeAllViews()
-        for (filter in allFilters) {
+        for (index in allFilters.indices) {
             binding.filterChipGroup.addView(
                 createChip(
-                    filter.getYearForDate(),
+                    allFilters[index],
+                    index,
                     binding.filterChipGroup
                 )
             )
@@ -149,13 +152,19 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private fun createChip(filter: String, viewGroup: ViewGroup): View {
+    private fun createChip(filter: String, index: Int, viewGroup: ViewGroup): View {
         val chipBinding =
             FilterChipBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-        chipBinding.root.text = filter
+        chipBinding.root.text = filter.getYearForDate()
+        chipBinding.root.tag = filter
 //        chipBinding.root.isChecked = true
         chipBinding.root.setOnCheckedChangeListener { buttonView, isChecked ->
-            // remove/add from filters
+            if (isChecked){
+                selectedFilters.add(getAllDateFilters()[index])
+            } else {
+                selectedFilters.remove(getAllDateFilters()[index])
+            }
+            launchQueryData.addQuery("date_utc", dateQuery(selectedFilters.first(), selectedFilters.last()))
         }
         return chipBinding.root
     }
