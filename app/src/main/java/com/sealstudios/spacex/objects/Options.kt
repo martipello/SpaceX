@@ -8,5 +8,6 @@ data class Options(
     var limit: Int,
     var page: Int,
     var pagination: Boolean = true,
-    var sort: MutableMap<String, String>
+    var sort: MutableMap<String, String>,
+    var populate: List<String>
 ) :Parcelable

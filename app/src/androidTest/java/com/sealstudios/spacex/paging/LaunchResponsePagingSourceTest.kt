@@ -71,7 +71,8 @@ class LaunchResponsePagingSourceTest {
             options = Options(
                 limit = 20,
                 page = 1,
-                sort = mutableMapOf("date_utc" to "desc")
+                sort = mutableMapOf("date_utc" to "desc"),
+                populate = listOf("rocket")
             ),
             query = null
         )
