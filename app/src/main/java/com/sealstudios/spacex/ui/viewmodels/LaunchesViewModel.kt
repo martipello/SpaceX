@@ -12,8 +12,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LaunchesViewModel @Inject constructor(
-        private val spaceXService: SpaceXService,
-        private val savedStateHandle: SavedStateHandle, ) : ViewModel() {
+    private val spaceXService: SpaceXService,
+    private val savedStateHandle: SavedStateHandle,
+) : ViewModel() {
 
     val launchQueryData: MutableLiveData<LaunchQueryData> = getLaunchQueryDataSavedState()
 
@@ -23,14 +24,14 @@ class LaunchesViewModel @Inject constructor(
 
     private fun pagedLiveData(launchQueryData: LaunchQueryData): LiveData<PagingData<LaunchResponse>> {
         return Pager(
-                config = PagingConfig(
-                        pageSize = 3,
-                        enablePlaceholders = true,
-                )
+            config = PagingConfig(
+                pageSize = 3,
+                enablePlaceholders = true,
+            )
         ) {
             LaunchResponsePagingSource(
-                    spaceXService = spaceXService,
-                    launchQueryData = launchQueryData
+                spaceXService = spaceXService,
+                launchQueryData = launchQueryData
             )
         }.liveData.cachedIn(viewModelScope)
     }
@@ -42,7 +43,7 @@ class LaunchesViewModel @Inject constructor(
 
     private fun getLaunchQueryDataSavedState(): MutableLiveData<LaunchQueryData> {
         val launchQueryData =
-                savedStateHandle.get<LaunchQueryData>(launchQueryDataKey) ?: getDefaultLaunchQueryData()
+            savedStateHandle.get<LaunchQueryData>(launchQueryDataKey) ?: getDefaultLaunchQueryData()
         return MutableLiveData(launchQueryData)
     }
 
