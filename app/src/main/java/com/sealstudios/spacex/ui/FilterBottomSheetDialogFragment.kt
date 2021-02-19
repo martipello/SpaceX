@@ -13,8 +13,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sealstudios.spacex.R
 import com.sealstudios.spacex.databinding.FilterChipBinding
 import com.sealstudios.spacex.databinding.FragmentFilterBinding
+import com.sealstudios.spacex.extensions.getYearForDate
 import com.sealstudios.spacex.objects.LaunchQueryData
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getAllDateFilters
+import com.sealstudios.spacex.objects.LaunchQueryData.Companion.addQuery
+import com.sealstudios.spacex.objects.LaunchQueryData.Companion.addSortOption
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getFiltersFromQuery
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getLaunchSuccessFromQuery
@@ -37,7 +39,11 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var launchQueryData: LaunchQueryData
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentFilterBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,7 +65,8 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun populateViewsInitialValues(launchQueryData: LaunchQueryData) {
         Log.d("FILTER_FRAG", "populateViewsInitialValues $launchQueryData")
-        binding.onlySuccessfulLaunchesCheckBox.isChecked = getLaunchSuccessFromQuery(launchQueryData)
+        binding.onlySuccessfulLaunchesCheckBox.isChecked =
+            getLaunchSuccessFromQuery(launchQueryData)
         binding.sortAscending.isChecked = isSortOrderAscending(launchQueryData)
         binding.sortDescending.isChecked = !isSortOrderAscending(launchQueryData)
     }
@@ -87,75 +94,73 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun populateViewsWithQueryData(launchQueryData: LaunchQueryData) {
-        Log.d("FILTER_FRAG", "populateViewsWithQueryData $launchQueryData")
-
         binding.onlySuccessfulLaunchesCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            filterViewModel.setLaunchQueryData(addQueryToLaunchQueryData(launchQueryData, "success", isChecked))
+            filterViewModel.setLaunchQueryData(
+                launchQueryData.addQuery(
+                    "success",
+                    isChecked
+                )
+            )
         }
 
         binding.sortGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.sort_ascending -> {
-                    filterViewModel.setLaunchQueryData(addSortOptionToLaunchQueryData(launchQueryData, "date_utc", "asc"))
+                    filterViewModel.setLaunchQueryData(
+                        launchQueryData.addSortOption(
+                            "date_utc",
+                            "asc"
+                        )
+                    )
                 }
                 R.id.sort_descending -> {
-                    filterViewModel.setLaunchQueryData(addSortOptionToLaunchQueryData(launchQueryData, "date_utc", "desc"))
+                    filterViewModel.setLaunchQueryData(
+                        launchQueryData.addSortOption(
+                            "date_utc",
+                            "desc"
+                        )
+                    )
                 }
             }
         }
 
-        val allFilters = getFiltersFromQuery(getAllDateFilters())
+        val allFilters = getAllDateFilters()
         val selectedFilters = launchQueryData.query?.let { getFiltersFromQuery(it) } ?: listOf()
 
         binding.filterChipGroup.removeAllViews()
         for (filter in allFilters) {
-            binding.filterChipGroup.addView(createChip(filter, binding.filterChipGroup))
+            binding.filterChipGroup.addView(
+                createChip(
+                    filter.getYearForDate(),
+                    binding.filterChipGroup
+                )
+            )
         }
     }
 
-    private fun addQueryToLaunchQueryData(
-            launchQueryData: LaunchQueryData,
-            key: String,
-            value: Any,
-    ): LaunchQueryData {
-        var query = launchQueryData.query
-        if (query != null) {
-            query[key] = "$value"
-        } else {
-            query = mutableMapOf(key to "$value")
-        }
-        return launchQueryData.apply {
-            this.query = query
-        }
-    }
-
-    private fun addSortOptionToLaunchQueryData(
-            launchQueryData: LaunchQueryData,
-            key: String,
-            value: String,
-    ): LaunchQueryData {
-        var sort = launchQueryData.options?.sort
-        if (sort != null) {
-            sort[key] = value
-        } else {
-            sort = mutableMapOf(key to value)
-        }
-        return launchQueryData.apply {
-            this.options?.sort = sort
-        }
+    private fun getAllDateFilters(): List<String> {
+        return mutableListOf(
+            "2016-01-01T00:00:00.000Z",
+            "2017-01-01T00:00:00.000Z",
+            "2018-01-01T00:00:00.000Z",
+            "2019-01-01T00:00:00.000Z",
+            "2020-01-01T00:00:00.000Z",
+            "2021-01-01T00:00:00.000Z"
+        )
     }
 
     private fun createChip(filter: String, viewGroup: ViewGroup): View {
-        val chipBinding = FilterChipBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val chipBinding =
+            FilterChipBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
         chipBinding.root.text = filter
-        chipBinding.root.isChecked = true
+//        chipBinding.root.isChecked = true
         chipBinding.root.setOnCheckedChangeListener { buttonView, isChecked ->
             // remove/add from filters
         }
         return chipBinding.root
     }
 
-    fun removeObservers() {
+    private fun removeObservers() {
         filterViewModel.launchQueryData.removeObserver(filtersViewModelObserver)
         launchesViewModel.launchQueryData.removeObserver(launchesViewModelObserver)
     }

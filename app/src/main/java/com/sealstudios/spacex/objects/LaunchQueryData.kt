@@ -1,13 +1,7 @@
 package com.sealstudios.spacex.objects
 
 import android.os.Parcelable
-import android.util.Log
-import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery2016
-import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery2017
-import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery2018
-import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery2019
-import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery2020
-import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery2021
+import com.sealstudios.spacex.extensions.getYearForDate
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 import java.text.SimpleDateFormat
@@ -35,30 +29,38 @@ data class LaunchQueryData(
                     .map { it.value as Map<*, *> }
                     .map { it.values }
                     .flatten()
-                    .map { getYearForDate(it as String) }
+                    .map { (it as String).getYearForDate() }
                     .toSet().toList()
         }
 
-        fun getAllDateFilters(): Map<String, Any> {
-            return mutableMapOf(
-                    dateQuery2016(),
-                    dateQuery2017(),
-                    dateQuery2018(),
-                    dateQuery2019(),
-                    dateQuery2020(),
-                    dateQuery2021(),
-            )
+        fun LaunchQueryData.addQuery(
+            key: String,
+            value: Any,
+        ): LaunchQueryData {
+            var query = this.query
+            if (query != null) {
+                query[key] = "$value"
+            } else {
+                query = mutableMapOf(key to "$value")
+            }
+            return this.apply {
+                this.query = query
+            }
         }
 
-        // TODO move this  make it an extension
-        private fun getYearForDate(dateString: String): String {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-            val date = dateFormat.parse(dateString)
-            date?.let {
-                val dateFormatter = SimpleDateFormat("yyyy", Locale.getDefault())
-                return dateFormatter.format(it)
+        fun LaunchQueryData.addSortOption(
+            key: String,
+            value: String,
+        ): LaunchQueryData {
+            var sort = this.options?.sort
+            if (sort != null) {
+                sort[key] = value
+            } else {
+                sort = mutableMapOf(key to value)
             }
-            return ""
+            return this.apply {
+                this.options?.sort = sort
+            }
         }
 
         fun getDefaultLaunchQueryData(): LaunchQueryData {
