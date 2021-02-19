@@ -22,4 +22,9 @@
     <string name="launch_success">Successful launch</string>
     <string name="filter_label">Filter</string>
     <string name="sort_label">Sort</string>
+    <string name="oldest_first">Oldest first</string>
+    <string name="newest_first">Newest first</string>
+    <string name="clear_filters_label">Clear filters</string>
+    <string name="apply_filters_label">Apply filters</string>
+    <string name="only_show_successful_launches_label">Only show successful launches</string>
 </resources>
