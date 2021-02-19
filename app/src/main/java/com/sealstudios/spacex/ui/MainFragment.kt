@@ -16,9 +16,9 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -32,9 +32,10 @@ class MainFragment : Fragment() {
 
     private fun openFilterDialog() {
         activity?.supportFragmentManager?.let {
-            FilterBottomSheetDialogFragment.newInstance(Bundle()).apply {
-                show(it, tag)
-            }
+            if (it.findFragmentByTag(FilterBottomSheetDialogFragment.getTag) == null)
+                FilterBottomSheetDialogFragment.newInstance(Bundle()).apply {
+                    show(it, FilterBottomSheetDialogFragment.getTag)
+                }
         }
     }
 

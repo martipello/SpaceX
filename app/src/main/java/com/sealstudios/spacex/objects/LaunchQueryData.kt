@@ -1,23 +1,25 @@
 package com.sealstudios.spacex.objects
 
 import android.os.Parcelable
-import com.sealstudios.spacex.extensions.getYearForDate
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
-import java.text.SimpleDateFormat
+import android.util.Log
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import java.util.*
 
 @Parcelize
 data class LaunchQueryData(
-        var options: Options?,
-        var query: MutableMap<String, @RawValue Any>?
+    var options: Options?,
+    var query: MutableMap<String, @RawValue Any>?
 ) : Parcelable {
+
     companion object {
 
         fun getLaunchSuccessFromQuery(launchQueryData: LaunchQueryData): Boolean {
-            val successKey = launchQueryData.query?.filterKeys { it == "success" }?.values?.firstOrNull()
-            return if (successKey != null){
-                (successKey as String).toBoolean()
+            val successKey =
+                launchQueryData.query?.filterKeys { it == "success" }?.values?.firstOrNull()
+            Log.d("FILTER", "success $successKey")
+            return if (successKey != null) {
+                successKey as Boolean
             } else {
                 false
             }
@@ -27,14 +29,20 @@ data class LaunchQueryData(
             return launchQueryData.options?.sort?.entries?.first()?.value ?: "desc" == "asc"
         }
 
-        fun getFiltersFromQuery(launchQueryData: Map<String, Any>): List<String> {
-            return launchQueryData.entries.asSequence()
-                    .filter { entry -> entry.key == "date_utc" }
-                    .map { it.value as Map<*, *> }
-                    .map { it.values }
-                    .flatten()
-                    .map { (it as String).getYearForDate() }
-                    .toSet().toList()
+        fun getFiltersFromQuery(launchQueryDataQuery: Map<String, Any>): SortedSet<String> {
+            return launchQueryDataQuery.entries.asSequence()
+                .filter { entry -> entry.key == "date_utc" }
+                .map { it.value as Map<*, *> }
+                .map { it.values }
+                .flatten()
+                .map { (it as String) }
+                .toSortedSet()
+        }
+
+        fun LaunchQueryData.removeDateQuery(): LaunchQueryData {
+            return this.apply {
+                this.query?.keys?.remove("date_utc")
+            }
         }
 
         fun LaunchQueryData.addQuery(
@@ -69,12 +77,12 @@ data class LaunchQueryData(
 
         fun getDefaultLaunchQueryData(): LaunchQueryData {
             return LaunchQueryData(
-                    options = Options(
-                            limit = 20,
-                            page = 1,
-                            sort = mutableMapOf("date_utc" to "desc")
-                    ),
-                    query = null
+                options = Options(
+                    limit = 20,
+                    page = 1,
+                    sort = mutableMapOf("date_utc" to "desc")
+                ),
+                query = null
             )
         }
 
