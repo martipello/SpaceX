@@ -4,10 +4,9 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.sealstudios.spacex.network.SpaceXService
 import com.sealstudios.spacex.objects.LaunchResponse
-import com.sealstudios.spacex.objects.LaunchesQueryData
-import com.sealstudios.spacex.objects.Options
+import com.sealstudios.spacex.objects.LaunchQueryData
 
-class LaunchResponsePagingSource(private val spaceXService: SpaceXService) :
+class LaunchResponsePagingSource(private val spaceXService: SpaceXService, private val launchQueryData: LaunchQueryData) :
     PagingSource<Int, LaunchResponse>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LaunchResponse> {
@@ -15,12 +14,7 @@ class LaunchResponsePagingSource(private val spaceXService: SpaceXService) :
             val currentLoadingPageKey = params.key ?: 1
             val response =
                 spaceXService.queryLaunches(
-                    LaunchesQueryData(
-                        options = Options(
-                            limit = 20,
-                            page = currentLoadingPageKey
-                        )
-                    )
+                    launchQueryData = launchQueryData.apply { this.options?.page = currentLoadingPageKey }
                 )
             val data = response.body()?.docs ?: emptyList()
 

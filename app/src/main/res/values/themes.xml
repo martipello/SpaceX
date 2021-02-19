@@ -11,7 +11,9 @@
         <item name="android:statusBarColor">
             @color/primaryColor
         </item>
-
+        <item name="radioButtonStyle">@style/Widget.App.RadioButton</item>
+        <item name="checkboxStyle">@style/Widget.App.CheckBox</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.App.Button.OutlinedButton</item>
     </style>
 
     <style name="Theme.SpaceX.NoActionBar">
@@ -29,4 +31,5 @@
     <style name="Theme.SpaceX.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.SpaceX.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

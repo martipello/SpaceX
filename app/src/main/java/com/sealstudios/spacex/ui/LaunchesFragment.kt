@@ -2,13 +2,16 @@ package com.sealstudios.spacex.ui
 
 import LaunchesLoadStateAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.navGraphViewModels
 import androidx.paging.LoadState
 import com.bumptech.glide.RequestManager
 import com.sealstudios.spacex.R
@@ -26,7 +29,7 @@ class LaunchesFragment : Fragment() {
     private val binding get() = _binding!!
     private var _binding: FragmentLaunchesBinding? = null
 
-    private val launchesViewModel: LaunchesViewModel by viewModels()
+    private val launchesViewModel: LaunchesViewModel by hiltNavGraphViewModels(R.id.nav_graph)
     private lateinit var launchesPagingAdapter: LaunchesPagingAdapter
 
     @Inject

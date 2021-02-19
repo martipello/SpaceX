@@ -32,4 +32,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout="@layout/fragment_launches" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/filter_fab"
+        android:src="@drawable/ic_filter_list_24px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/medium_margin_16dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
