@@ -1,5 +1,6 @@
 package com.sealstudios.spacex.ui.adapters
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
@@ -20,7 +21,8 @@ class LaunchViewHolder(
             this.missionDateText.text =
                 if (launchResponse.tdb == true) "TBD" else LaunchResponse.formatDate(launchResponse.date_utc)
             this.successfulLaunchCheckBox.isChecked = launchResponse.success ?: false
-            this.missionRocketText.text = "${launchResponse.rocket}"
+            this.missionRocketText.text = launchResponse.rocket?.name ?: "Unknown"
+            this.missionRocketTypeText.text = launchResponse.rocket?.type ?: "Unknown"
             setImage(launchResponse.links?.patch?.small)
         }
     }

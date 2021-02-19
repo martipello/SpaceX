@@ -13,7 +13,6 @@ data class LaunchResponse(
         val tdb: Boolean?,
         val net: Boolean?,
         val window: Int?,
-        val rocket: String?,
         val success: Boolean?,
         val failures: List<Failure>,
         val details: String?,
@@ -30,7 +29,8 @@ data class LaunchResponse(
         val date_precision: String?,
         val upcoming: Boolean?,
         val cores: List<Core>,
-        val fairings: Fairings
+        val fairings: Fairings,
+        val rocket: Rocket?
 ) {
 
     companion object {

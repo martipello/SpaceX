@@ -43,7 +43,12 @@ class LaunchesViewModelTest {
     @Test
     fun launches() = runBlocking {
         every { handle.get<LaunchQueryData>("launchQueryDataKey") } answers { defaultLaunchQueryData() }
-        every { handle.set<LaunchQueryData>("launchQueryDataKey", defaultLaunchQueryData()) } answers { defaultLaunchQueryData() }
+        every {
+            handle.set<LaunchQueryData>(
+                "launchQueryDataKey",
+                defaultLaunchQueryData()
+            )
+        } answers { defaultLaunchQueryData() }
         val launchesViewModel = LaunchesViewModel(spaceXService = spaceXService, handle)
 
         coEvery { spaceXService.queryLaunches(launchQueryData = defaultLaunchQueryData()) } returns successResponsePagedLaunchResponse()
@@ -57,7 +62,7 @@ class LaunchesViewModelTest {
 
     }
 
-    private fun successResponsePagedLaunchResponse() : Response<PagedLaunchResponse> {
+    private fun successResponsePagedLaunchResponse(): Response<PagedLaunchResponse> {
         return Response.success(
             PagedLaunchResponse(
                 hasNextPage = true,
@@ -87,7 +92,8 @@ class LaunchesViewModelTest {
             options = Options(
                 limit = 20,
                 page = 1,
-                sort = mutableMapOf("date_utc" to "desc")
+                sort = mutableMapOf("date_utc" to "desc"),
+                populate = listOf("rocket")
             ),
             query = null
         )

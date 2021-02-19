@@ -6,7 +6,10 @@ import com.sealstudios.spacex.network.SpaceXService
 import com.sealstudios.spacex.objects.LaunchResponse
 import com.sealstudios.spacex.objects.LaunchQueryData
 
-class LaunchResponsePagingSource(private val spaceXService: SpaceXService, private val launchQueryData: LaunchQueryData) :
+class LaunchResponsePagingSource(
+    private val spaceXService: SpaceXService,
+    private val launchQueryData: LaunchQueryData
+) :
     PagingSource<Int, LaunchResponse>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LaunchResponse> {
@@ -14,7 +17,10 @@ class LaunchResponsePagingSource(private val spaceXService: SpaceXService, priva
             val currentLoadingPageKey = params.key ?: 1
             val response =
                 spaceXService.queryLaunches(
-                    launchQueryData = launchQueryData.apply { this.options?.page = currentLoadingPageKey }
+                    launchQueryData = launchQueryData.apply {
+                        this.options?.page = currentLoadingPageKey
+                        this.options?.populate = listOf("rocket")
+                    },
                 )
             val data = response.body()?.docs ?: emptyList()
 
