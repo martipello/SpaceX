@@ -2,16 +2,13 @@ package com.sealstudios.spacex.ui
 
 import LaunchesLoadStateAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.navGraphViewModels
 import androidx.paging.LoadState
 import com.bumptech.glide.RequestManager
 import com.sealstudios.spacex.R
@@ -38,7 +35,7 @@ class LaunchesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLaunchesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -80,14 +77,26 @@ class LaunchesFragment : Fragment() {
                     binding.onError((it.refresh as LoadState.Error).error.localizedMessage)
                 }
                 else -> {
-                    binding.onData()
+                    if (launchesPagingAdapter.itemCount == 0){
+                        binding.onDataEmpty()
+                    } else {
+                        binding.onData()
+                    }
                 }
             }
         }
     }
 
+    private fun FragmentLaunchesBinding.onDataEmpty() {
+        content.visibility = View.VISIBLE
+        loading.visibility = View.GONE
+        errorLayout.root.visibility = View.GONE
+        binding.emptyText.visibility = View.VISIBLE
+    }
+
     private fun FragmentLaunchesBinding.onData() {
         content.visibility = View.VISIBLE
+        binding.emptyText.visibility = View.GONE
         loading.visibility = View.GONE
         errorLayout.root.visibility = View.GONE
     }
