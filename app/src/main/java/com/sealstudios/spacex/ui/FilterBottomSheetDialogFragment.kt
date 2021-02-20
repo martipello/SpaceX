@@ -19,9 +19,9 @@ import com.sealstudios.spacex.objects.LaunchQueryData.Companion.addQuery
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.addSortOption
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getFiltersFromQuery
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getLaunchSuccessFromQuery
+import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isLaunchSuccessful
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isSortOrderAscending
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.removeDateQuery
+import com.sealstudios.spacex.objects.LaunchQueryData.Companion.removeQuery
 import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery
 import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery2016
 import com.sealstudios.spacex.objects.queries.DateQuery.Companion.dateQuery2017
@@ -76,7 +76,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private fun setInitialSelectedYears(launchQueryData: LaunchQueryData) {
         selectedYear.clear()
         launchQueryData.query?.let {
-            val filtersFromQuery = getFiltersFromQuery(it)
+            val filtersFromQuery = launchQueryData.getFiltersFromQuery()
             if (filtersFromQuery.isNotEmpty()){
                 selectedYear.add(
                     filtersFromQuery.first()
@@ -87,9 +87,9 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun populateViewsInitialValues(launchQueryData: LaunchQueryData) {
         binding.onlySuccessfulLaunchesCheckBox.isChecked =
-            getLaunchSuccessFromQuery(launchQueryData)
-        binding.sortAscending.isChecked = isSortOrderAscending(launchQueryData)
-        binding.sortDescending.isChecked = !isSortOrderAscending(launchQueryData)
+            launchQueryData.isLaunchSuccessful()
+        binding.sortAscending.isChecked = launchQueryData.isSortOrderAscending()
+        binding.sortDescending.isChecked = !launchQueryData.isSortOrderAscending()
 
         binding.filterChipGroup.removeAllViews()
         for (index in getAllDateFilters().indices) {
@@ -220,7 +220,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 dateQuery(selectedYear.first(), selectedYear.last())
             )
         } else {
-            launchQueryData.removeDateQuery()
+            launchQueryData.removeQuery("date_utc")
         }
     }
 

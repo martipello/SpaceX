@@ -1,7 +1,6 @@
 package com.sealstudios.spacex.objects
 
 import android.os.Parcelable
-import android.util.Log
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import java.util.*
@@ -14,10 +13,9 @@ data class LaunchQueryData(
 
     companion object {
 
-        fun getLaunchSuccessFromQuery(launchQueryData: LaunchQueryData): Boolean {
+        fun LaunchQueryData.isLaunchSuccessful(): Boolean {
             val successKey =
-                launchQueryData.query?.filterKeys { it == "success" }?.values?.firstOrNull()
-            Log.d("FILTER", "success $successKey")
+                this.query?.filterKeys { it == "success" }?.values?.firstOrNull()
             return if (successKey != null) {
                 successKey as Boolean
             } else {
@@ -25,23 +23,26 @@ data class LaunchQueryData(
             }
         }
 
-        fun isSortOrderAscending(launchQueryData: LaunchQueryData): Boolean {
-            return launchQueryData.options?.sort?.entries?.first()?.value ?: "desc" == "asc"
+        fun LaunchQueryData.isSortOrderAscending(): Boolean {
+            return this.options?.sort?.entries?.first()?.value ?: "desc" == "asc"
         }
 
-        fun getFiltersFromQuery(launchQueryDataQuery: Map<String, Any>): SortedSet<String> {
-            return launchQueryDataQuery.entries.asSequence()
-                .filter { entry -> entry.key == "date_utc" }
-                .map { it.value as Map<*, *> }
-                .map { it.values }
-                .flatten()
-                .map { (it as String) }
-                .toSortedSet()
+        fun LaunchQueryData.getFiltersFromQuery(): SortedSet<String> {
+            if (this.query != null){
+                return this.query!!.entries.asSequence()
+                    .filter { entry -> entry.key == "date_utc" }
+                    .map { it.value as Map<*, *> }
+                    .map { it.values }
+                    .flatten()
+                    .map { (it as String) }
+                    .toSortedSet()
+            }
+            return sortedSetOf()
         }
 
-        fun LaunchQueryData.removeDateQuery(): LaunchQueryData {
+        fun LaunchQueryData.removeQuery(key: String): LaunchQueryData {
             return this.apply {
-                this.query?.keys?.remove("date_utc")
+                this.query?.keys?.remove(key)
             }
         }
 
