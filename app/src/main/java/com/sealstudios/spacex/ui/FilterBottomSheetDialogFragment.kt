@@ -77,7 +77,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         selectedYear.clear()
         launchQueryData.query?.let {
             val filtersFromQuery = launchQueryData.getFiltersFromQuery()
-            if (filtersFromQuery.isNotEmpty()){
+            if (filtersFromQuery.isNotEmpty()) {
                 selectedYear.add(
                     filtersFromQuery.first()
                 )
@@ -126,43 +126,17 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun populateViewsWithQueryData(launchQueryData: LaunchQueryData) {
-        binding.onlySuccessfulLaunchesCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            filterViewModel.setLaunchQueryData(
-                launchQueryData.addQuery(
-                    "success",
-                    isChecked
-                )
-            )
-        }
+        setLaunchSuccessCheckedChangeListener(launchQueryData)
+        setSortOptionCheckedChangeListener(launchQueryData)
+        setFiltersCheckedChangeListener()
+    }
 
-        binding.sortGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.sort_ascending -> {
-                    filterViewModel.setLaunchQueryData(
-                        launchQueryData.addSortOption(
-                            "date_utc",
-                            "asc"
-                        )
-                    )
-                }
-                R.id.sort_descending -> {
-                    filterViewModel.setLaunchQueryData(
-                        launchQueryData.addSortOption(
-                            "date_utc",
-                            "desc"
-                        )
-                    )
-                }
-            }
-        }
-
+    private fun setFiltersCheckedChangeListener() {
         binding.filterChipGroup.setOnCheckedChangeListener { group, checkedId ->
-
             if (checkedId == View.NO_ID) {
                 selectedYear.clear()
             } else {
                 val chip: Chip = group.findViewById(checkedId)
-
                 if (chip.isChecked) {
                     selectedYear.clear()
                     for (year in getDateQueryForFilter((chip.tag as String))) {
@@ -170,32 +144,46 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
                     }
                 }
             }
-
             setSelectedYearToLaunchQueryData()
         }
     }
 
-    private fun getAllDateFilters(): List<String> {
-        return mutableListOf(
-            "2016-01-01T00:00:00.000Z",
-            "2017-01-01T00:00:00.000Z",
-            "2018-01-01T00:00:00.000Z",
-            "2019-01-01T00:00:00.000Z",
-            "2020-01-01T00:00:00.000Z",
-            "2021-01-01T00:00:00.000Z"
-        )
+    private fun setSortOptionCheckedChangeListener(launchQueryData: LaunchQueryData) {
+        binding.sortGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.sort_ascending -> {
+                    launchQueryData.addSortOption(
+                        "date_utc",
+                        "asc"
+                    )
+                }
+                R.id.sort_descending -> {
+                    launchQueryData.addSortOption(
+                        "date_utc",
+                        "desc"
+                    )
+                }
+            }
+            filterViewModel.setLaunchQueryData(launchQueryData)
+        }
     }
 
-    private fun getDateQueryForFilter(filter: String): List<String> {
-        when (filter) {
-            "2016-01-01T00:00:00.000Z" -> return dateQuery2016().values.toList()
-            "2017-01-01T00:00:00.000Z" -> return dateQuery2017().values.toList()
-            "2018-01-01T00:00:00.000Z" -> return dateQuery2018().values.toList()
-            "2019-01-01T00:00:00.000Z" -> return dateQuery2019().values.toList()
-            "2020-01-01T00:00:00.000Z" -> return dateQuery2020().values.toList()
-            "2021-01-01T00:00:00.000Z" -> return dateQuery2021().values.toList()
+    private fun setLaunchSuccessCheckedChangeListener(launchQueryData: LaunchQueryData) {
+        binding.onlySuccessfulLaunchesCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                launchQueryData.addQuery(
+                    "success",
+                    isChecked
+                )
+            } else {
+                launchQueryData.removeQuery(
+                    "success"
+                )
+            }
+            filterViewModel.setLaunchQueryData(
+                launchQueryData
+            )
         }
-        return listOf()
     }
 
     private fun createChip(filter: String, isSelected: Boolean): View {
@@ -240,6 +228,29 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
             val fragment = FilterBottomSheetDialogFragment()
             fragment.arguments = bundle
             return fragment
+        }
+
+        private fun getAllDateFilters(): List<String> {
+            return mutableListOf(
+                "2016-01-01T00:00:00.000Z",
+                "2017-01-01T00:00:00.000Z",
+                "2018-01-01T00:00:00.000Z",
+                "2019-01-01T00:00:00.000Z",
+                "2020-01-01T00:00:00.000Z",
+                "2021-01-01T00:00:00.000Z"
+            )
+        }
+
+        private fun getDateQueryForFilter(filter: String): List<String> {
+            when (filter) {
+                "2016-01-01T00:00:00.000Z" -> return dateQuery2016().values.toList()
+                "2017-01-01T00:00:00.000Z" -> return dateQuery2017().values.toList()
+                "2018-01-01T00:00:00.000Z" -> return dateQuery2018().values.toList()
+                "2019-01-01T00:00:00.000Z" -> return dateQuery2019().values.toList()
+                "2020-01-01T00:00:00.000Z" -> return dateQuery2020().values.toList()
+                "2021-01-01T00:00:00.000Z" -> return dateQuery2021().values.toList()
+            }
+            return listOf()
         }
 
         const val getTag: String = "BottomSheetDialog"
