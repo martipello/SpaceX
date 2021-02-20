@@ -7,14 +7,16 @@ import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.RequestManager
 import com.sealstudios.spacex.databinding.LaunchViewHolderBinding
 import com.sealstudios.spacex.objects.LaunchResponse
+import com.sealstudios.spacex.ui.adapters.utils.LaunchClickListener
 
-class LaunchesPagingAdapter(private val requestManager: RequestManager) :
+class LaunchesPagingAdapter(private val requestManager: RequestManager, private val launchClickListener: LaunchClickListener) :
     PagingDataAdapter<LaunchResponse, LaunchViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchViewHolder {
         return LaunchViewHolder(
             LaunchViewHolderBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            requestManager
+            requestManager,
+            launchClickListener
         )
     }
 
