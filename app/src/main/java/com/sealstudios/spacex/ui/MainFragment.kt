@@ -33,7 +33,7 @@ class MainFragment : Fragment() {
     private fun openFilterDialog() {
         activity?.supportFragmentManager?.let {
             if (it.findFragmentByTag(FilterBottomSheetDialogFragment.getTag) == null)
-                FilterBottomSheetDialogFragment.newInstance(Bundle()).apply {
+                FilterBottomSheetDialogFragment.newInstance().apply {
                     show(it, FilterBottomSheetDialogFragment.getTag)
                 }
         }

@@ -224,10 +224,8 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle): FilterBottomSheetDialogFragment {
-            val fragment = FilterBottomSheetDialogFragment()
-            fragment.arguments = bundle
-            return fragment
+        fun newInstance(): FilterBottomSheetDialogFragment {
+            return FilterBottomSheetDialogFragment()
         }
 
         private fun getAllDateFilters(): List<String> {

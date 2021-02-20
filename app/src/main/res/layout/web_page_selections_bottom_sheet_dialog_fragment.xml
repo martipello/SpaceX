@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/medium_margin_16dp">
+
+    <ImageButton
+        android:id="@+id/close_dialog_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_close_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/selections_label"
+        style="@style/ThemeOverlay.MySubTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/selections_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/close_dialog_button" />
+
+    <View
+        android:id="@+id/more_info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/medium_margin_16dp"
+        android:layout_marginBottom="@dimen/medium_margin_16dp"
+        android:background="@color/secondaryColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selections_label" />
+
+    <LinearLayout
+        android:id="@+id/wikipedia_holder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin_16dp"
+        android:layout_marginBottom="@dimen/medium_margin_16dp"
+        android:orientation="vertical"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/video_page_holder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/more_info_divider">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/wikipedia_image"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/wikipedia_icon" />
+
+        <TextView
+            android:id="@+id/wikipedia_text"
+            style="@style/ThemeOverlay.MyBodyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/small_margin_8dp"
+            android:text="@string/wikipedia_label" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/video_page_holder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin_16dp"
+        android:layout_marginBottom="@dimen/medium_margin_16dp"
+        android:orientation="vertical"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/article_holder"
+        app:layout_constraintStart_toEndOf="@id/wikipedia_holder"
+        app:layout_constraintTop_toBottomOf="@id/more_info_divider">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/video_pages_image"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/video_image" />
+
+        <TextView
+            android:id="@+id/video_page_text"
+            style="@style/ThemeOverlay.MyBodyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/small_margin_8dp"
+            android:text="@string/video_page_label" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/article_holder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin_16dp"
+        android:layout_marginBottom="@dimen/medium_margin_16dp"
+        android:orientation="vertical"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/video_page_holder"
+        app:layout_constraintTop_toBottomOf="@id/more_info_divider">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/article_image"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/article_icon" />
+
+        <TextView
+            android:id="@+id/article_text"
+            style="@style/ThemeOverlay.MyBodyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/small_margin_8dp"
+            android:text="@string/article_label" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,22 +16,6 @@ class LaunchesListDividerDecoration constructor(
 
     private val divider: Drawable? = ContextCompat.getDrawable(context, resId)
 
-    override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
-    ) {
-        super.getItemOffsets(outRect, view, parent, state)
-
-        outRect.top = margin
-
-        if (parent.getChildAdapterPosition(view) == parent.childCount) {
-            outRect.bottom = margin
-        }
-
-    }
-
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
 
         val left: Int = parent.paddingLeft + (margin * 4)
@@ -44,8 +28,8 @@ class LaunchesListDividerDecoration constructor(
             val params = child.layoutParams as RecyclerView.LayoutParams
             if (i != childCount - 1) {
                 divider?.let {
-                    val top = child.bottom + params.bottomMargin + margin
-                    val bottom: Int = top + it.intrinsicHeight
+                    val top = child.bottom + params.bottomMargin
+                    val bottom = top + divider.intrinsicHeight
                     it.setBounds(left, top, right, bottom)
                     it.draw(c)
                 }

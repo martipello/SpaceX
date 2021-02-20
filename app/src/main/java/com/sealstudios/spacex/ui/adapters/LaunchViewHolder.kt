@@ -1,6 +1,5 @@
 package com.sealstudios.spacex.ui.adapters
 
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
@@ -8,10 +7,12 @@ import com.sealstudios.spacex.R
 import com.sealstudios.spacex.databinding.LaunchViewHolderBinding
 import com.sealstudios.spacex.objects.LaunchResponse
 import com.sealstudios.spacex.objects.LaunchTense
+import com.sealstudios.spacex.ui.adapters.utils.LaunchClickListener
 
 class LaunchViewHolder(
     private val launchViewHolderBinding: LaunchViewHolderBinding,
-    private val requestManager: RequestManager
+    private val requestManager: RequestManager,
+    private val launchClickListener: LaunchClickListener
 ) : RecyclerView.ViewHolder(launchViewHolderBinding.root) {
 
     fun bind(launchResponse: LaunchResponse) {
@@ -24,6 +25,9 @@ class LaunchViewHolder(
             this.missionRocketText.text = launchResponse.rocket?.name ?: "Unknown"
             this.missionRocketTypeText.text = launchResponse.rocket?.type ?: "Unknown"
             setImage(launchResponse.links?.patch?.small)
+            this.background.setOnClickListener {
+                launchClickListener.onItemSelected(launchResponse)
+            }
         }
     }
 
