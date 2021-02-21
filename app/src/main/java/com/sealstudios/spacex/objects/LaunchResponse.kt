@@ -1,25 +1,29 @@
 package com.sealstudios.spacex.objects
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
 
+@Entity
 data class LaunchResponse(
-        val id: String?,
+        @PrimaryKey
+        val id: String,
         val name: String?,
-        val links: LaunchLinks?,
+//        val links: LaunchLinks?,
         val static_fire_date_utc: String?,
         val static_fire_date_unix: Long?,
         val tdb: Boolean?,
         val net: Boolean?,
         val window: Int?,
         val success: Boolean?,
-        val failures: List<Failure>,
+//        val failures: List<Failure>,
         val details: String?,
-        val crew: List<String>,
-        val ships: List<String>,
-        val capsules: List<String>,
-        val payloads: List<String>,
+//        val crew: List<String>,
+//        val ships: List<String>,
+//        val capsules: List<String>,
+//        val payloads: List<String>,
         val launchpad: String?,
         val auto_update: Boolean?,
         val flight_number: Int?,
@@ -28,9 +32,9 @@ data class LaunchResponse(
         val date_local: String?,
         val date_precision: String?,
         val upcoming: Boolean?,
-        val cores: List<Core>,
-        val fairings: Fairings,
-        val rocket: Rocket?
+//        val cores: List<Core>,
+//        val fairings: Fairings,
+//        val rocket: Rocket?
 ) {
 
     companion object {

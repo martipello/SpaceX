@@ -2,6 +2,7 @@ package com.sealstudios.spacex.ui
 
 import LaunchesLoadStateAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import com.bumptech.glide.RequestManager
-import com.google.android.material.snackbar.Snackbar
 import com.sealstudios.spacex.R
 import com.sealstudios.spacex.databinding.FragmentLaunchesBinding
 import com.sealstudios.spacex.objects.LaunchResponse
-import com.sealstudios.spacex.ui.WebPageSelectionsBottomSheetDialogFragment.Companion.ARTICLE
-import com.sealstudios.spacex.ui.WebPageSelectionsBottomSheetDialogFragment.Companion.WEB_CAST
-import com.sealstudios.spacex.ui.WebPageSelectionsBottomSheetDialogFragment.Companion.WIKIPEDIA
 import com.sealstudios.spacex.ui.adapters.LaunchesPagingAdapter
 import com.sealstudios.spacex.ui.adapters.utils.LaunchClickListener
 import com.sealstudios.spacex.ui.adapters.utils.LaunchesListDividerDecoration
@@ -46,6 +44,7 @@ class LaunchesFragment : Fragment(), LaunchClickListener {
         return binding.root
     }
 
+    @ExperimentalPagingApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         launchesPagingAdapter = LaunchesPagingAdapter(glide, this)
@@ -54,9 +53,11 @@ class LaunchesFragment : Fragment(), LaunchClickListener {
         observeLaunches()
     }
 
+    @ExperimentalPagingApi
     private fun observeLaunches() {
         launchesViewModel.launches.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
+                Log.d("MEDIATOR_LOG", "observeLaunches fired")
                 launchesPagingAdapter.submitData(it)
             }
         })
@@ -81,7 +82,11 @@ class LaunchesFragment : Fragment(), LaunchClickListener {
                     binding.onLoading()
                 }
                 is LoadState.Error -> {
-                    binding.onError((it.refresh as LoadState.Error).error.localizedMessage)
+                    if (launchesPagingAdapter.itemCount == 0){
+                        binding.onError((it.refresh as LoadState.Error).error.localizedMessage)
+                    } else {
+                        binding.onData()
+                    }
                 }
                 else -> {
                     if (launchesPagingAdapter.itemCount == 0) {
@@ -127,20 +132,20 @@ class LaunchesFragment : Fragment(), LaunchClickListener {
     }
 
     override fun onItemSelected(launchResponse: LaunchResponse) {
-        if (launchResponse.links?.wikipedia.isNullOrEmpty() && launchResponse.links?.article.isNullOrEmpty() && launchResponse.links?.webcast.isNullOrEmpty()) {
-            Snackbar.make(binding.root, "No details", Snackbar.LENGTH_SHORT).show()
-        } else {
-            openWebPageSelectionsBottomSheetDialog(launchResponse = launchResponse)
-        }
+//        if (launchResponse.links?.wikipedia.isNullOrEmpty() && launchResponse.links?.article.isNullOrEmpty() && launchResponse.links?.webcast.isNullOrEmpty()) {
+//            Snackbar.make(binding.root, "No details", Snackbar.LENGTH_SHORT).show()
+//        } else {
+//            openWebPageSelectionsBottomSheetDialog(launchResponse = launchResponse)
+//        }
     }
 
     private fun openWebPageSelectionsBottomSheetDialog(launchResponse: LaunchResponse) {
         activity?.supportFragmentManager?.let {
-            if (it.findFragmentByTag(FilterBottomSheetDialogFragment.getTag) == null){
+            if (it.findFragmentByTag(FilterBottomSheetDialogFragment.getTag) == null) {
                 val launchBundle = Bundle()
-                launchBundle.putString(WIKIPEDIA, launchResponse.links?.wikipedia)
-                launchBundle.putString(ARTICLE, launchResponse.links?.article)
-                launchBundle.putString(WEB_CAST, launchResponse.links?.webcast)
+//                launchBundle.putString(WIKIPEDIA, launchResponse.links?.wikipedia)
+//                launchBundle.putString(ARTICLE, launchResponse.links?.article)
+//                launchBundle.putString(WEB_CAST, launchResponse.links?.webcast)
                 WebPageSelectionsBottomSheetDialogFragment.newInstance(launchBundle).apply {
                     show(it, WebPageSelectionsBottomSheetDialogFragment.getTag)
                 }

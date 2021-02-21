@@ -6,38 +6,42 @@ import com.sealstudios.spacex.network.SpaceXService
 import com.sealstudios.spacex.objects.LaunchResponse
 import com.sealstudios.spacex.objects.LaunchQueryData
 
-class LaunchResponsePagingSource(
-    private val spaceXService: SpaceXService,
-    private val launchQueryData: LaunchQueryData
-) :
-    PagingSource<Int, LaunchResponse>() {
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LaunchResponse> {
-        return try {
-            val currentLoadingPageKey = params.key ?: 1
-            val response =
-                spaceXService.queryLaunches(
-                    launchQueryData = launchQueryData.apply {
-                        this.options?.page = currentLoadingPageKey
-                        this.options?.populate = listOf("rocket")
-                    },
-                )
-            val data = response.body()?.docs ?: emptyList()
-
-            val prevKey = if (currentLoadingPageKey == 1) null else currentLoadingPageKey - 1
-
-            LoadResult.Page(
-                data = data,
-                prevKey = prevKey,
-                nextKey = if (response.body()?.hasNextPage == false) null else currentLoadingPageKey + 1
-            )
-        } catch (e: Exception) {
-            LoadResult.Error(e)
-        }
-    }
-
-    override fun getRefreshKey(state: PagingState<Int, LaunchResponse>): Int? {
-        return state.anchorPosition
-    }
-
-}
+//class LaunchResponsePagingSource(
+//    private val spaceXService: SpaceXService,
+//    private val launchQueryData: LaunchQueryData
+//) :
+//    PagingSource<Int, LaunchResponse>() {
+//
+//    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LaunchResponse> {
+//        return try {
+//            val currentLoadingPageKey = params.key ?: DEFAULT_PAGE_INDEX
+//            val response =
+//                spaceXService.queryLaunches(
+//                    launchQueryData = launchQueryData.apply {
+//                        this.options?.page = currentLoadingPageKey
+//                        this.options?.populate = listOf("rocket")
+//                    },
+//                )
+//            val data = response.body()?.docs ?: emptyList()
+//
+//            val prevKey = if (currentLoadingPageKey == DEFAULT_PAGE_INDEX) null else currentLoadingPageKey - 1
+//
+//            LoadResult.Page(
+//                data = data,
+//                prevKey = prevKey,
+//                nextKey = if (response.body()?.hasNextPage == false) null else currentLoadingPageKey + 1
+//            )
+//        } catch (e: Exception) {
+//            LoadResult.Error(e)
+//        }
+//    }
+//
+//    override fun getRefreshKey(state: PagingState<Int, LaunchResponse>): Int? {
+//        return state.anchorPosition
+//    }
+//
+//    companion object {
+//        const val DEFAULT_PAGE_INDEX = 1
+//    }
+//
+//}

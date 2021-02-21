@@ -1,8 +1,13 @@
 package com.sealstudios.spacex.objects
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.math.BigDecimal
 
+@Entity
 data class Rocket(
+    @PrimaryKey
+    val id: String,
     val height: Height?,
     val diameter: Diameter?,
     val mass: Mass?,
@@ -17,8 +22,7 @@ data class Rocket(
     val country: String?,
     val company: String?,
     val wikipedia: String?,
-    val description: String?,
-    val id: String
+    val description: String?
 )
 
 data class Height(

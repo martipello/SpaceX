@@ -16,6 +16,6 @@ interface SpaceXService {
     @POST("launches/query")
     suspend fun queryLaunches(
         @Body launchQueryData: LaunchQueryData,
-    ): Response<PagedLaunchResponse>
+    ): PagedLaunchResponse
 
 }

@@ -1,39 +1,29 @@
 package com.sealstudios.spacex.ui.viewmodels
 
-import androidx.lifecycle.*
-import androidx.paging.*
-import com.sealstudios.spacex.network.SpaceXService
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
+import androidx.paging.ExperimentalPagingApi
 import com.sealstudios.spacex.objects.LaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunchQueryData
-import com.sealstudios.spacex.objects.LaunchResponse
-import com.sealstudios.spacex.paging.LaunchResponsePagingSource
+import com.sealstudios.spacex.repositories.SpaceXRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class LaunchesViewModel @Inject constructor(
-    private val spaceXService: SpaceXService,
+    private val spaceXRepository: SpaceXRepository,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     val launchQueryData: MutableLiveData<LaunchQueryData> = getLaunchQueryDataSavedState()
 
+    @ExperimentalPagingApi
     val launches = launchQueryData.switchMap {
-        pagedLiveData(it)
-    }
-
-    private fun pagedLiveData(launchQueryData: LaunchQueryData): LiveData<PagingData<LaunchResponse>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 3,
-                enablePlaceholders = true,
-            )
-        ) {
-            LaunchResponsePagingSource(
-                spaceXService = spaceXService,
-                launchQueryData = launchQueryData
-            )
-        }.liveData.cachedIn(viewModelScope)
+        Log.d("MEDIATOR_LOG", "launchQueryData.switchMap")
+        spaceXRepository.launches(it)
     }
 
     fun setLaunchQueryData(launchQueryData: LaunchQueryData) {

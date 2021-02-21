@@ -22,9 +22,9 @@ class LaunchViewHolder(
             this.missionDateText.text =
                 if (launchResponse.tdb == true) "TBD" else LaunchResponse.formatDate(launchResponse.date_utc)
             this.successfulLaunchCheckBox.isChecked = launchResponse.success ?: false
-            this.missionRocketText.text = launchResponse.rocket?.name ?: "Unknown"
-            this.missionRocketTypeText.text = launchResponse.rocket?.type ?: "Unknown"
-            setImage(launchResponse.links?.patch?.small)
+//            this.missionRocketText.text = launchResponse.rocket?.name ?: "Unknown"
+//            this.missionRocketTypeText.text = launchResponse.rocket?.type ?: "Unknown"
+//            setImage(launchResponse.links?.patch?.small)
             this.background.setOnClickListener {
                 launchClickListener.onItemSelected(launchResponse)
             }

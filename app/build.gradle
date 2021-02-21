@@ -18,6 +18,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -67,6 +73,11 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hilt_version"
     implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0-alpha03'
 
+    // room
+    implementation "androidx.room:room-runtime:$rootProject.room_version"
+    kapt "androidx.room:room-compiler:$rootProject.room_version"
+    implementation "androidx.room:room-ktx:$rootProject.room_version"
+
     // lifecycle components
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
@@ -90,6 +101,7 @@ dependencies {
 
     //paging
     implementation "androidx.paging:paging-runtime-ktx:3.0.0-beta01"
+    testImplementation "androidx.paging:paging-common-ktx:3.0.0-beta01"
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -101,7 +113,6 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    testImplementation "androidx.paging:paging-common-ktx:3.0.0-beta01"
 
     testImplementation "io.mockk:mockk:1.10.6"
     androidTestImplementation "io.mockk:mockk-android:1.10.6"
