@@ -33,4 +33,5 @@
     <string name="video_page_label">Video Pages</string>
     <string name="article_label">Article</string>
     <string name="selections_label">More info...</string>
+    <string name="no_details">No details</string>
 </resources>

@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.sealstudios.spacex.R
 import com.sealstudios.spacex.databinding.WebPageSelectionsBottomSheetDialogFragmentBinding
 import com.sealstudios.spacex.extensions.asUri
 import com.sealstudios.spacex.extensions.openInBrowser
+import com.sealstudios.spacex.objects.LaunchLinks
+import com.sealstudios.spacex.ui.viewmodels.LaunchesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -17,6 +21,7 @@ class WebPageSelectionsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private var _binding: WebPageSelectionsBottomSheetDialogFragmentBinding? = null
 
+    private val launchesViewModel: LaunchesViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,59 +35,59 @@ class WebPageSelectionsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        populateViews()
+        observeSelectedLaunch()
     }
 
-    private fun populateViews() {
-        setWikipediaView()
-        setArticleView()
-        setWebCastView()
+    private fun observeSelectedLaunch() {
+        launchesViewModel.selectedLaunchLinks.observe(viewLifecycleOwner, {
+            populateViews(it)
+        })
+    }
+
+    private fun populateViews(launchLinks: LaunchLinks) {
+        setWikipediaView(launchLinks)
+        setArticleView(launchLinks)
+        setWebCastView(launchLinks)
         binding.closeDialogButton.setOnClickListener {
             this.dismiss()
         }
     }
 
-    private fun setWebCastView() {
-        if (this.arguments?.getString(WEB_CAST).isNullOrEmpty()) {
+    private fun setWebCastView(launchLinks: LaunchLinks) {
+        if (launchLinks.webcast.isNullOrEmpty()) {
             binding.videoPageHolder.visibility = View.GONE
         } else {
             binding.videoPageHolder.setOnClickListener {
-                this.arguments?.getString(WEB_CAST).asUri().openInBrowser(binding.root.context)
+                launchLinks.webcast.asUri().openInBrowser(binding.root.context)
             }
         }
     }
 
-    private fun setArticleView() {
-        if (this.arguments?.getString(ARTICLE).isNullOrEmpty()) {
+    private fun setArticleView(launchLinks: LaunchLinks) {
+        if (launchLinks.article.isNullOrEmpty()) {
             binding.articleHolder.visibility = View.GONE
         } else {
             binding.articleHolder.setOnClickListener {
-                this.arguments?.getString(ARTICLE).asUri().openInBrowser(binding.root.context)
+                launchLinks.article.asUri().openInBrowser(binding.root.context)
             }
         }
     }
 
-    private fun setWikipediaView() {
-        if (this.arguments?.getString(WIKIPEDIA).isNullOrEmpty()) {
+    private fun setWikipediaView(launchLinks: LaunchLinks) {
+        if (launchLinks.wikipedia.isNullOrEmpty()) {
             binding.wikipediaHolder.visibility = View.GONE
         } else {
             binding.wikipediaHolder.setOnClickListener {
-                this.arguments?.getString(WIKIPEDIA).asUri().openInBrowser(binding.root.context)
+                launchLinks.wikipedia.asUri().openInBrowser(binding.root.context)
             }
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle): WebPageSelectionsBottomSheetDialogFragment {
-            val fragment = WebPageSelectionsBottomSheetDialogFragment()
-            fragment.arguments = bundle
-            return fragment
+        fun newInstance(): WebPageSelectionsBottomSheetDialogFragment {
+            return WebPageSelectionsBottomSheetDialogFragment()
         }
-
         const val getTag: String = "OpenWebPageBottomSheetDialog"
-        const val WIKIPEDIA = "wikipedia"
-        const val WEB_CAST = "webcast"
-        const val ARTICLE = "article"
     }
 }

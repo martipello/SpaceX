@@ -6,16 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.sealstudios.spacex.R
 import com.sealstudios.spacex.databinding.FragmentCompanyBinding
 import com.sealstudios.spacex.network.Status
 import com.sealstudios.spacex.objects.CompanyResponse
+import com.sealstudios.spacex.objects.CompanyResponse.Companion.formatCompanyDescription
 import com.sealstudios.spacex.ui.viewmodels.CompanyViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.*
 
 @AndroidEntryPoint
 class CompanyFragment : Fragment() {
@@ -28,7 +25,7 @@ class CompanyFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCompanyBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -40,13 +37,13 @@ class CompanyFragment : Fragment() {
     }
 
     private fun observeCompany() {
-        companyViewModel.company.observe(viewLifecycleOwner, Observer {
+        companyViewModel.company.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.SUCCESS -> {
                     if (it.data != null) {
                         binding.onData(it.data)
                     } else {
-                        binding.onError(getString(R.string.error),) { companyViewModel.retry() }
+                        binding.onError(getString(R.string.error)) { companyViewModel.retry() }
                     }
                 }
                 Status.ERROR -> binding.onError(
@@ -60,21 +57,11 @@ class CompanyFragment : Fragment() {
 }
 
 fun FragmentCompanyBinding.onData(companyResponse: CompanyResponse) {
-    fun formatValuation(): String {
-        val decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US)
-        return DecimalFormat("#,##0.#", decimalFormatSymbols).format(companyResponse.valuation)
-    }
-
-    fun formatCompanyDescription(): String {
-        return "${companyResponse.name ?: "Company"} was founded by ${companyResponse.founder ?: "Unknown"} in ${companyResponse.founded ?: "Unknown"}. " +
-                "It has now ${companyResponse.employees ?: "n/a"} employees, ${companyResponse.launch_sites ?: "n/a"} launch sites, " +
-                "and is valued at USD ${formatValuation()}"
-    }
 
     content.visibility = View.VISIBLE
     loading.visibility = View.GONE
     errorLayout.root.visibility = View.GONE
-    description.text = formatCompanyDescription()
+    description.text = companyResponse.formatCompanyDescription()
 
 }
 

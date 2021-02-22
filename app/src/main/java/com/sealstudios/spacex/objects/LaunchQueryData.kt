@@ -1,9 +1,9 @@
 package com.sealstudios.spacex.objects
 
 import android.os.Parcelable
+import com.sealstudios.spacex.objects.queries.DateQuery
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
-import java.util.*
 
 @Parcelize
 data class LaunchQueryData(
@@ -15,7 +15,7 @@ data class LaunchQueryData(
 
         fun LaunchQueryData.isLaunchSuccessful(): Boolean {
             val successKey =
-                this.query?.filterKeys { it == "success" }?.values?.firstOrNull()
+                this.query?.filterKeys { it == SUCCESS }?.values?.firstOrNull()
             return if (successKey != null) {
                 successKey as Boolean
             } else {
@@ -24,29 +24,47 @@ data class LaunchQueryData(
         }
 
         fun LaunchQueryData.isSortOrderAscending(): Boolean {
-            return this.options?.sort?.entries?.first()?.value ?: "desc" == "asc"
+            return this.options?.sort?.entries?.first()?.value ?: DESC == ASC
         }
 
-        fun LaunchQueryData.getFiltersFromQuery(): SortedSet<String> {
+        fun LaunchQueryData.getFiltersFromQuery(): String? {
             if (this.query != null){
-                return this.query!!.entries.asSequence()
-                    .filter { entry -> entry.key == "date_utc" }
-                    .map { it.value as Map<*, *> }
-                    .map { it.values }
-                    .flatten()
-                    .map { (it as String) }
-                    .toSortedSet()
+                return this.query?.entries?.asSequence()
+                    ?.filter { entry -> entry.key == DATE_UTC }
+                    ?.map { it.value as Map<*, *> }
+                    ?.map { it.values }
+                    ?.flatten()
+                    ?.map { (it as String) }
+                    ?.firstOrNull()
             }
-            return sortedSetOf()
+            return null
         }
 
-        fun LaunchQueryData.removeQuery(key: String): LaunchQueryData {
+        fun LaunchQueryData.removeSuccessQuery(){
+            this.removeQuery(SUCCESS)
+        }
+
+        fun LaunchQueryData.addSuccessQuery(isSuccess: Boolean){
+            this.addQuery(SUCCESS, isSuccess)
+        }
+
+        fun LaunchQueryData.removeDateQuery(){
+            this.removeQuery(DATE_UTC)
+        }
+
+        fun LaunchQueryData.addDateQuery(dateQuery: DateQuery?){
+            dateQuery?.let {
+                this.addQuery(DATE_UTC, it.query)
+            }
+        }
+
+        private fun LaunchQueryData.removeQuery(key: String): LaunchQueryData {
             return this.apply {
                 this.query?.keys?.remove(key)
             }
         }
 
-        fun LaunchQueryData.addQuery(
+        private fun LaunchQueryData.addQuery(
             key: String,
             value: Any,
         ): LaunchQueryData {
@@ -61,7 +79,15 @@ data class LaunchQueryData(
             }
         }
 
-        fun LaunchQueryData.addSortOption(
+        fun LaunchQueryData.addSortOptionAscending(){
+            this.addSortOption(DATE_UTC, ASC)
+        }
+
+        fun LaunchQueryData.addSortOptionDescending(){
+            this.addSortOption(DATE_UTC, DESC)
+        }
+
+        private fun LaunchQueryData.addSortOption(
             key: String,
             value: String,
         ): LaunchQueryData {
@@ -81,13 +107,17 @@ data class LaunchQueryData(
                 options = Options(
                     limit = 20,
                     page = 1,
-                    sort = mutableMapOf("date_utc" to "desc"),
-                    populate = listOf("rocket")
+                    sort = mutableMapOf(DATE_UTC to DESC),
+                    populate = listOf(ROCKET)
                 ),
                 query = null
             )
         }
 
-
+        private const val DATE_UTC: String = "date_utc"
+        const val ROCKET: String = "rocket"
+        private const val DESC: String = "desc"
+        private const val ASC: String = "asc"
+        private const val SUCCESS: String = "desc"
     }
 }

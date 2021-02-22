@@ -3,6 +3,7 @@ package com.sealstudios.spacex.ui.viewmodels
 import androidx.lifecycle.*
 import androidx.paging.*
 import com.sealstudios.spacex.network.SpaceXService
+import com.sealstudios.spacex.objects.LaunchLinks
 import com.sealstudios.spacex.objects.LaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunchQueryData
 import com.sealstudios.spacex.objects.LaunchResponse
@@ -16,7 +17,8 @@ class LaunchesViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    val launchQueryData: MutableLiveData<LaunchQueryData> = getLaunchQueryDataSavedState()
+    private val launchQueryData: MutableLiveData<LaunchQueryData> = getLaunchQueryDataSavedState()
+    val selectedLaunchLinks: MutableLiveData<LaunchLinks> = getSelectedLaunchLinksSavedState()
 
     val launches = launchQueryData.switchMap {
         pagedLiveData(it)
@@ -41,14 +43,25 @@ class LaunchesViewModel @Inject constructor(
         savedStateHandle.set(launchQueryDataKey, launchQueryData)
     }
 
+    fun setSelectedLaunchLinks(launchLinks: LaunchLinks) {
+        this.selectedLaunchLinks.value = launchLinks
+        savedStateHandle.set(launchLinksKey, launchLinks)
+    }
+
     private fun getLaunchQueryDataSavedState(): MutableLiveData<LaunchQueryData> {
         val launchQueryData =
             savedStateHandle.get<LaunchQueryData>(launchQueryDataKey) ?: getDefaultLaunchQueryData()
         return MutableLiveData(launchQueryData)
     }
 
+    private fun getSelectedLaunchLinksSavedState(): MutableLiveData<LaunchLinks> {
+        val launchLinks = savedStateHandle.get<LaunchLinks>(launchLinksKey)
+        return MutableLiveData(launchLinks)
+    }
+
     companion object {
         private const val launchQueryDataKey: String = "launchQueryDataKey"
+        private const val launchLinksKey: String = "launchLinksKey"
     }
 
 }
