@@ -5,9 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Options(
-    var limit: Int,
-    var page: Int,
-    var pagination: Boolean = true,
-    var sort: MutableMap<String, String>,
-    var populate: List<String>
+    val limit: Int,
+    val page: Int,
+    val pagination: Boolean = true,
+    val sort: MutableMap<String, String>,
+    val populate: List<String>
 ) :Parcelable

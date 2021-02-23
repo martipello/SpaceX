@@ -2,13 +2,13 @@ package com.sealstudios.spacex.ui.viewmodels
 
 import androidx.lifecycle.*
 import com.sealstudios.spacex.network.Resource
-import com.sealstudios.spacex.repositories.SpaceXRepository
+import com.sealstudios.spacex.network.SpaceXService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CompanyViewModel @Inject constructor(
-    private val spaceXRepository: SpaceXRepository
+    private val spaceXService: SpaceXService
 ) : ViewModel() {
 
     private val retry: MutableLiveData<Boolean> = MutableLiveData()
@@ -16,7 +16,7 @@ class CompanyViewModel @Inject constructor(
     val company = retry.switchMap {
         liveData {
             emit(Resource.loading(null))
-            emit(spaceXRepository.getCompanyResponse())
+            emit(spaceXService.getCompanyResponse())
         }
     }
 

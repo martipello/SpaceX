@@ -25,9 +25,7 @@ fun String?.asUri(): Uri? {
     return null
 }
 
-fun Uri?.openInBrowser(context: Context) {
-    this ?: return // Do nothing if uri is null
-
+fun Uri.openInBrowser(context: Context) {
     val browserIntent = Intent(Intent.ACTION_VIEW, this)
     ContextCompat.startActivity(context, browserIntent, null)
 }

@@ -2,13 +2,13 @@ package com.sealstudios.spacex.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.sealstudios.spacex.network.SpaceXService
+import com.sealstudios.spacex.network.RetrofitSpaceXService
 import com.sealstudios.spacex.objects.LaunchResponse
 import com.sealstudios.spacex.objects.LaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.ROCKET
 
 class LaunchResponsePagingSource(
-    private val spaceXService: SpaceXService,
+    private val retrofitSpaceXService: RetrofitSpaceXService,
     private val launchQueryData: LaunchQueryData
 ) :
     PagingSource<Int, LaunchResponse>() {
@@ -17,11 +17,13 @@ class LaunchResponsePagingSource(
         return try {
             val currentLoadingPageKey = params.key ?: 1
             val response =
-                spaceXService.queryLaunches(
-                    launchQueryData = launchQueryData.apply {
-                        this.options?.page = currentLoadingPageKey
-                        this.options?.populate = listOf(ROCKET)
-                    },
+                retrofitSpaceXService.queryLaunches(
+                    launchQueryData = launchQueryData.copy(
+                        options = launchQueryData.options?.copy(
+                            page = currentLoadingPageKey,
+                            populate = listOf(ROCKET)
+                        )
+                    )
                 )
             val data = response.body()?.docs ?: emptyList()
 

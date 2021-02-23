@@ -2,7 +2,7 @@ package com.sealstudios.spacex.di.network
 
 import com.sealstudios.spacex.BuildConfig
 import com.sealstudios.spacex.network.OkHttpClient
-import com.sealstudios.spacex.network.SpaceXService
+import com.sealstudios.spacex.network.RetrofitSpaceXService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,12 +17,12 @@ class SpaceXServiceProvider {
 
     @Provides
     @Singleton
-    fun provideSpaceXService(@InterceptorOkHttpClient okHttpClient: OkHttpClient): SpaceXService {
+    fun provideSpaceXService(okHttpClient: OkHttpClient): RetrofitSpaceXService {
         return Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient.getOkHttpClient())
                 .build()
-                .create(SpaceXService::class.java)
+                .create(RetrofitSpaceXService::class.java)
     }
 }

@@ -4,7 +4,7 @@ import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sealstudios.spacex.network.Resource
 import com.sealstudios.spacex.network.Status
-import com.sealstudios.spacex.repositories.SpaceXRepository
+import com.sealstudios.spacex.network.SpaceXService
 import com.sealstudios.spacex.testUtils.getValueBlocking
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
 class CompanyViewModelTest {
 
     @MockK
-    private lateinit var spaceXRepository: SpaceXRepository
+    private lateinit var spaceXService: SpaceXService
 
     @Before
     fun setUp() {
@@ -36,8 +36,8 @@ class CompanyViewModelTest {
     @Test
     fun getCompany() {
         runBlocking {
-            coEvery { spaceXRepository.getCompanyResponse() } returns Resource.loading(null)
-            val companyViewModel = CompanyViewModel(spaceXRepository = spaceXRepository)
+            coEvery { spaceXService.getCompanyResponse() } returns Resource.loading(null)
+            val companyViewModel = CompanyViewModel(spaceXService = spaceXService)
             withContext(Dispatchers.Main) {
                 companyViewModel.retry()
             }

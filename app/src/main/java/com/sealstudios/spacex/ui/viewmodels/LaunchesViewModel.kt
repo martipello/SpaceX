@@ -2,7 +2,7 @@ package com.sealstudios.spacex.ui.viewmodels
 
 import androidx.lifecycle.*
 import androidx.paging.*
-import com.sealstudios.spacex.network.SpaceXService
+import com.sealstudios.spacex.network.RetrofitSpaceXService
 import com.sealstudios.spacex.objects.LaunchLinks
 import com.sealstudios.spacex.objects.LaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunchQueryData
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LaunchesViewModel @Inject constructor(
-    private val spaceXService: SpaceXService,
+    private val retrofitSpaceXService: RetrofitSpaceXService,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -32,7 +32,7 @@ class LaunchesViewModel @Inject constructor(
             )
         ) {
             LaunchResponsePagingSource(
-                spaceXService = spaceXService,
+                retrofitSpaceXService = retrofitSpaceXService,
                 launchQueryData = launchQueryData
             )
         }.liveData.cachedIn(viewModelScope)
@@ -57,6 +57,10 @@ class LaunchesViewModel @Inject constructor(
     private fun getSelectedLaunchLinksSavedState(): MutableLiveData<LaunchLinks> {
         val launchLinks = savedStateHandle.get<LaunchLinks>(launchLinksKey)
         return MutableLiveData(launchLinks)
+    }
+
+    fun clearFilters() {
+        setLaunchQueryData(getDefaultLaunchQueryData())
     }
 
     companion object {

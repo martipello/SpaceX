@@ -14,26 +14,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class OkHttpClientProvider {
 
-    @InterceptorOkHttpClient
     @Singleton
     @Provides
     fun provideOkHttpClient(networkConnectionInterceptor: NetworkConnectionInterceptor): OkHttpClient {
         return OkHttpClient(networkConnectionInterceptor)
     }
-
-    @TestInterceptorOkHttpClient
-    @Singleton
-    @Provides
-    fun provideTestOkHttpClient(testInterceptor: NetworkConnectionInterceptor): OkHttpClient {
-        return OkHttpClient(testInterceptor)
-    }
 }
-
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class InterceptorOkHttpClient
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class TestInterceptorOkHttpClient

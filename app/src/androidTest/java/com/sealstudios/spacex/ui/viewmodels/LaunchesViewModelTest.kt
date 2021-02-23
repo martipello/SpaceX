@@ -3,12 +3,11 @@ package com.sealstudios.spacex.ui.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.sealstudios.spacex.network.SpaceXService
+import com.sealstudios.spacex.network.RetrofitSpaceXService
 import com.sealstudios.spacex.objects.LaunchQueryData
 import com.sealstudios.spacex.objects.Options
 import com.sealstudios.spacex.objects.PagedLaunchResponse
 import com.sealstudios.spacex.paging.LaunchResponsePagingSource
-import com.sealstudios.spacex.testUtils.getValueBlocking
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -26,7 +25,7 @@ import retrofit2.Response
 class LaunchesViewModelTest {
 
     @MockK
-    private lateinit var spaceXService: SpaceXService
+    private lateinit var retrofitSpaceXService: RetrofitSpaceXService
 
     @MockK
     private lateinit var handle: SavedStateHandle
@@ -49,9 +48,9 @@ class LaunchesViewModelTest {
                 defaultLaunchQueryData()
             )
         } answers { defaultLaunchQueryData() }
-        val launchesViewModel = LaunchesViewModel(spaceXService = spaceXService, handle)
+        val launchesViewModel = LaunchesViewModel(retrofitSpaceXService = retrofitSpaceXService, handle)
 
-        coEvery { spaceXService.queryLaunches(launchQueryData = defaultLaunchQueryData()) } returns successResponsePagedLaunchResponse()
+        coEvery { retrofitSpaceXService.queryLaunches(launchQueryData = defaultLaunchQueryData()) } returns successResponsePagedLaunchResponse()
 
         withContext(Dispatchers.Main) {
             launchesViewModel.setLaunchQueryData(defaultLaunchQueryData())
@@ -82,7 +81,7 @@ class LaunchesViewModelTest {
 
     fun launchResponsePagingSource(): LaunchResponsePagingSource {
         return LaunchResponsePagingSource(
-            spaceXService = spaceXService,
+            retrofitSpaceXService = retrofitSpaceXService,
             launchQueryData = defaultLaunchQueryData()
         )
     }
