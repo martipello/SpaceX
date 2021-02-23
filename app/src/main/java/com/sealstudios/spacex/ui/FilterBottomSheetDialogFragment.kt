@@ -2,7 +2,6 @@ package com.sealstudios.spacex.ui
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.sealstudios.spacex.databinding.FilterChipBinding
 import com.sealstudios.spacex.databinding.FragmentFilterBinding
 import com.sealstudios.spacex.extensions.getYearForDate
 import com.sealstudios.spacex.objects.LaunchQueryData
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getFiltersFromQuery
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isLaunchSuccessful
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isSortOrderAscending

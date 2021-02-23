@@ -14,7 +14,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class GlideProvider {
 
-    @Singleton
     @Provides
     fun provideGlide(@ApplicationContext context: Context): RequestManager {
         return Glide.with(context)
