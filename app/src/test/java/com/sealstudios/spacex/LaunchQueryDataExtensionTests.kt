@@ -9,7 +9,7 @@ import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isLaunchSuccessf
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isSortOrderAscending
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.removeQuery
 import com.sealstudios.spacex.objects.Options
-import com.sealstudios.spacex.objects.queries.DateQuery
+import com.sealstudios.spacex.objects.DateQuery
 import org.junit.Test
 
 

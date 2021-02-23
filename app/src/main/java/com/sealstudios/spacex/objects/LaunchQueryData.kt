@@ -1,7 +1,6 @@
 package com.sealstudios.spacex.objects
 
 import android.os.Parcelable
-import com.sealstudios.spacex.objects.queries.DateQuery
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
@@ -97,9 +96,7 @@ data class LaunchQueryData(
             } else {
                 sort = mutableMapOf(key to value)
             }
-            return this.apply {
-                this.options?.sort = sort
-            }
+            return this.copy(options = options?.copy(sort = sort))
         }
 
         fun getDefaultLaunchQueryData(): LaunchQueryData {

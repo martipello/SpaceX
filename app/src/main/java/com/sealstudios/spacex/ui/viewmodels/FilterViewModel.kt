@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.sealstudios.spacex.objects.LaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunchQueryData
-import com.sealstudios.spacex.objects.queries.DateQuery
+import com.sealstudios.spacex.objects.DateQuery
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

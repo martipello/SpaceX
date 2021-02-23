@@ -18,10 +18,12 @@ class LaunchResponsePagingSource(
             val currentLoadingPageKey = params.key ?: 1
             val response =
                 spaceXService.queryLaunches(
-                    launchQueryData = launchQueryData.apply {
-                        this.options?.page = currentLoadingPageKey
-                        this.options?.populate = listOf(ROCKET)
-                    },
+                    launchQueryData = launchQueryData.copy(
+                        options = launchQueryData.options?.copy(
+                            page = currentLoadingPageKey,
+                            populate = listOf(ROCKET)
+                        )
+                    )
                 )
             val data = response.body()?.docs ?: emptyList()
 

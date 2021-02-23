@@ -1,12 +1,10 @@
-package com.sealstudios.spacex.objects.queries
+package com.sealstudios.spacex.objects
 
 class DateQuery(
-    val query: MutableMap<String, String>
+    val query: Map<String, String>
 ) {
 
     companion object {
-
-        // TODO come up with a more elegant solution to provide dates to filter on
 
         fun dateQuery(fromDate: String, toDate: String): DateQuery {
             return DateQuery(
