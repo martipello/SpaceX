@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/large_margin_64dp"
     android:orientation="horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -10,12 +11,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="@style/ThemeOverlay.MyBodyText"
+        android:paddingStart="@dimen/medium_margin_16dp"
+        android:paddingEnd="@dimen/medium_margin_16dp"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:text="@string/error"/>
-    <View
-        android:layout_width="@dimen/medium_margin_16dp"
-        android:layout_height="0dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/retry_button"

@@ -1,5 +1,7 @@
 package com.sealstudios.spacex.objects
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
@@ -35,7 +37,21 @@ data class LaunchResponse(
 
     companion object {
 
-        fun getDaysSinceFromMissionLaunchText(dateString: String?): String {
+        fun LaunchResponse.missionDateText(): String {
+            return if (this.tdb == true) "TBD" else formatDate(this.date_utc)
+        }
+
+        fun LaunchResponse.daysFromLaunch(): String{
+            return if (this.tdb == true) "TBD" else getDaysSinceFromMissionLaunchText(this.date_utc)
+        }
+
+        fun LaunchResponse.hasNoLinks(): Boolean{
+            return this.links?.wikipedia.isNullOrEmpty()
+                    && this.links?.article.isNullOrEmpty()
+                    && this.links?.webcast.isNullOrEmpty()
+        }
+
+        private fun getDaysSinceFromMissionLaunchText(dateString: String?): String {
             dateString?.let {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val launchDate = dateFormat.parse(dateString)
@@ -57,7 +73,7 @@ data class LaunchResponse(
             return if (fromDate == null || toDate == null) 0 else ((toDate.time - fromDate.time) / (1000 * 60 * 60 * 24)).toInt()
         }
 
-        fun formatDate(dateString: String?): String {
+        private fun formatDate(dateString: String?): String {
             dateString?.let {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
                 val date = dateFormat.parse(dateString)
@@ -72,7 +88,7 @@ data class LaunchResponse(
             return "Unavailable"
         }
 
-        fun isLaunchInTheFuture(dateString: String?): LaunchTense {
+        private fun isLaunchInTheFuture(dateString: String?): LaunchTense {
             dateString?.let {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val launchDate = dateFormat.parse(dateString)
@@ -95,6 +111,23 @@ data class LaunchResponse(
             return LaunchTense.UNKNOWN
         }
 
+        fun LaunchResponse.launchTenseLabelText(): String?{
+            return when (isLaunchInTheFuture(this.date_utc)) {
+                LaunchTense.NOW -> {
+                    "Days from now :"
+                }
+                LaunchTense.FUTURE -> {
+                    "Days from now :"
+                }
+                LaunchTense.PAST -> {
+                    "Days since launch :"
+                }
+                LaunchTense.UNKNOWN -> {
+                    null
+                }
+            }
+        }
+
     }
 
 }
@@ -115,6 +148,7 @@ data class Core(
         val landpad: String?
 )
 
+@Parcelize
 data class LaunchLinks(
         val patch: Patch?,
         val reddit: Reddit?,
@@ -124,24 +158,27 @@ data class LaunchLinks(
         val youtube_id: String?,
         val article: String?,
         val wikipedia: String?,
-)
+): Parcelable
 
+@Parcelize
 data class Patch(
         val small: String?,
         val large: String?,
-)
+): Parcelable
 
+@Parcelize
 data class Reddit(
         val campaign: String?,
         val launch: String?,
         val media: String?,
         val recovery: String?,
-)
+): Parcelable
 
+@Parcelize
 data class Flikr(
         val small: List<String>,
         val original: List<String>,
-)
+): Parcelable
 
 data class Fairings(
         val reused: Boolean?,

@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.sealstudios.spacex.network.SpaceXService
 import com.sealstudios.spacex.objects.LaunchResponse
 import com.sealstudios.spacex.objects.LaunchQueryData
+import com.sealstudios.spacex.objects.LaunchQueryData.Companion.ROCKET
 
 class LaunchResponsePagingSource(
     private val spaceXService: SpaceXService,
@@ -19,7 +20,7 @@ class LaunchResponsePagingSource(
                 spaceXService.queryLaunches(
                     launchQueryData = launchQueryData.apply {
                         this.options?.page = currentLoadingPageKey
-                        this.options?.populate = listOf("rocket")
+                        this.options?.populate = listOf(ROCKET)
                     },
                 )
             val data = response.body()?.docs ?: emptyList()

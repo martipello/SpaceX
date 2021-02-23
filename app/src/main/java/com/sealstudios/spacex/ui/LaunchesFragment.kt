@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.bumptech.glide.RequestManager
@@ -15,9 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.sealstudios.spacex.R
 import com.sealstudios.spacex.databinding.FragmentLaunchesBinding
 import com.sealstudios.spacex.objects.LaunchResponse
-import com.sealstudios.spacex.ui.WebPageSelectionsBottomSheetDialogFragment.Companion.ARTICLE
-import com.sealstudios.spacex.ui.WebPageSelectionsBottomSheetDialogFragment.Companion.WEB_CAST
-import com.sealstudios.spacex.ui.WebPageSelectionsBottomSheetDialogFragment.Companion.WIKIPEDIA
+import com.sealstudios.spacex.objects.LaunchResponse.Companion.hasNoLinks
 import com.sealstudios.spacex.ui.adapters.LaunchesPagingAdapter
 import com.sealstudios.spacex.ui.adapters.utils.LaunchClickListener
 import com.sealstudios.spacex.ui.adapters.utils.LaunchesListDividerDecoration
@@ -33,6 +30,7 @@ class LaunchesFragment : Fragment(), LaunchClickListener {
     private var _binding: FragmentLaunchesBinding? = null
 
     private val launchesViewModel: LaunchesViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+
     private lateinit var launchesPagingAdapter: LaunchesPagingAdapter
 
     @Inject
@@ -55,7 +53,7 @@ class LaunchesFragment : Fragment(), LaunchClickListener {
     }
 
     private fun observeLaunches() {
-        launchesViewModel.launches.observe(viewLifecycleOwner, Observer {
+        launchesViewModel.launches.observe(viewLifecycleOwner, {
             lifecycleScope.launch {
                 launchesPagingAdapter.submitData(it)
             }
@@ -127,21 +125,18 @@ class LaunchesFragment : Fragment(), LaunchClickListener {
     }
 
     override fun onItemSelected(launchResponse: LaunchResponse) {
-        if (launchResponse.links?.wikipedia.isNullOrEmpty() && launchResponse.links?.article.isNullOrEmpty() && launchResponse.links?.webcast.isNullOrEmpty()) {
-            Snackbar.make(binding.root, "No details", Snackbar.LENGTH_SHORT).show()
+        if (launchResponse.hasNoLinks()) {
+            Snackbar.make(binding.root, getString(R.string.no_details), Snackbar.LENGTH_SHORT).show()
         } else {
-            openWebPageSelectionsBottomSheetDialog(launchResponse = launchResponse)
+            launchesViewModel.setSelectedLaunchLinks(launchLinks = launchResponse.links!!)
+            openWebPageSelectionsBottomSheetDialog()
         }
     }
 
-    private fun openWebPageSelectionsBottomSheetDialog(launchResponse: LaunchResponse) {
+    private fun openWebPageSelectionsBottomSheetDialog() {
         activity?.supportFragmentManager?.let {
-            if (it.findFragmentByTag(FilterBottomSheetDialogFragment.getTag) == null){
-                val launchBundle = Bundle()
-                launchBundle.putString(WIKIPEDIA, launchResponse.links?.wikipedia)
-                launchBundle.putString(ARTICLE, launchResponse.links?.article)
-                launchBundle.putString(WEB_CAST, launchResponse.links?.webcast)
-                WebPageSelectionsBottomSheetDialogFragment.newInstance(launchBundle).apply {
+            if (it.findFragmentByTag(FilterBottomSheetDialogFragment.getTag) == null) {
+                WebPageSelectionsBottomSheetDialogFragment.newInstance().apply {
                     show(it, WebPageSelectionsBottomSheetDialogFragment.getTag)
                 }
             }
