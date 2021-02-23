@@ -58,7 +58,7 @@ class WebPageSelectionsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             binding.videoPageHolder.visibility = View.GONE
         } else {
             binding.videoPageHolder.setOnClickListener {
-                launchLinks.webcast.asUri().openInBrowser(binding.root.context)
+                launchLinks.webcast.asUri()?.openInBrowser(binding.root.context)
             }
         }
     }
@@ -68,7 +68,7 @@ class WebPageSelectionsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             binding.articleHolder.visibility = View.GONE
         } else {
             binding.articleHolder.setOnClickListener {
-                launchLinks.article.asUri().openInBrowser(binding.root.context)
+                launchLinks.article.asUri()?.openInBrowser(binding.root.context)
             }
         }
     }
@@ -78,7 +78,7 @@ class WebPageSelectionsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             binding.wikipediaHolder.visibility = View.GONE
         } else {
             binding.wikipediaHolder.setOnClickListener {
-                launchLinks.wikipedia.asUri().openInBrowser(binding.root.context)
+                launchLinks.wikipedia.asUri()?.openInBrowser(binding.root.context)
             }
         }
     }

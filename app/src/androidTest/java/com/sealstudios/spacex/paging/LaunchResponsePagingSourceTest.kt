@@ -1,7 +1,7 @@
 package com.sealstudios.spacex.paging
 
 import androidx.paging.PagingSource
-import com.sealstudios.spacex.network.SpaceXService
+import com.sealstudios.spacex.network.RetrofitSpaceXService
 import com.sealstudios.spacex.objects.LaunchResponse
 import com.sealstudios.spacex.objects.LaunchQueryData
 import com.sealstudios.spacex.objects.Options
@@ -19,7 +19,7 @@ import retrofit2.Response
 class LaunchResponsePagingSourceTest {
 
     @MockK
-    private lateinit var spaceXService: SpaceXService
+    private lateinit var retrofitSpaceXService: RetrofitSpaceXService
 
     @Before
     fun setUp() {
@@ -33,7 +33,7 @@ class LaunchResponsePagingSourceTest {
     @Test
     fun load() = runBlocking {
         coEvery {
-            spaceXService.queryLaunches(
+            retrofitSpaceXService.queryLaunches(
                 launchQueryData = getDefaultLaunchQueryData()
             )
         } returns Response.success(
@@ -51,7 +51,7 @@ class LaunchResponsePagingSourceTest {
                 pagingCounter = 1
             )
         )
-        val pagingSource = LaunchResponsePagingSource(spaceXService = spaceXService, launchQueryData = getDefaultLaunchQueryData())
+        val pagingSource = LaunchResponsePagingSource(retrofitSpaceXService = retrofitSpaceXService, launchQueryData = getDefaultLaunchQueryData())
         val pagingSourceLoadResult = pagingSource.load(
             PagingSource.LoadParams.Refresh(
                 placeholdersEnabled = false,

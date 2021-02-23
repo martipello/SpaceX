@@ -2,6 +2,7 @@ package com.sealstudios.spacex.ui
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,18 +14,13 @@ import com.sealstudios.spacex.databinding.FilterChipBinding
 import com.sealstudios.spacex.databinding.FragmentFilterBinding
 import com.sealstudios.spacex.extensions.getYearForDate
 import com.sealstudios.spacex.objects.LaunchQueryData
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.addDateQuery
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.addSortOptionAscending
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.addSortOptionDescending
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.addSuccessQuery
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getDefaultLaunchQueryData
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.getFiltersFromQuery
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isLaunchSuccessful
 import com.sealstudios.spacex.objects.LaunchQueryData.Companion.isSortOrderAscending
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.removeDateQuery
-import com.sealstudios.spacex.objects.LaunchQueryData.Companion.removeSuccessQuery
 import com.sealstudios.spacex.ui.viewmodels.FilterViewModel
 import com.sealstudios.spacex.ui.viewmodels.LaunchesViewModel
+import com.sealstudios.spacex.ui.viewmodels.SortOrder
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -54,7 +50,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun setUpFilterChips() {
         binding.filterChipGroup.removeAllViews()
-        val allDateFilters = FilterViewModel.getAllDateFilters()
+        val allDateFilters = filterViewModel.getAllDateFilters()
         for (index in allDateFilters.indices) {
             binding.filterChipGroup.addView(
                 createChip(
@@ -84,7 +80,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
         binding.clearFiltersButton.setOnClickListener {
             this.dismiss()
-            launchesViewModel.setLaunchQueryData(getDefaultLaunchQueryData())
+            launchesViewModel.clearFilters()
         }
         binding.applyFiltersButton.setOnClickListener {
             this.dismiss()
@@ -93,7 +89,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun setCheckedChip(launchQueryData: LaunchQueryData) {
-        val allDateFilters = FilterViewModel.getAllDateFilters()
+        val allDateFilters = filterViewModel.getAllDateFilters()
         for (index in allDateFilters.indices) {
             val isChecked =
                 launchQueryData.getFiltersFromQuery()?.contains(allDateFilters[index])
@@ -107,14 +103,10 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
             if (checkedId != View.NO_ID) {
                 val chip: Chip? = group.findViewById(checkedId)
                 if (chip?.isChecked == true) {
-                    launchQueryData.addDateQuery(
-                        FilterViewModel.getDateQueryForFilter((chip.tag as String))
-                    )
-                    filterViewModel.setLaunchQueryData(launchQueryData)
+                    filterViewModel.setDateQuery(launchQueryData, (chip.tag as String))
                 }
             } else {
-                launchQueryData.removeDateQuery()
-                filterViewModel.setLaunchQueryData(launchQueryData)
+                filterViewModel.removeDateQuery(launchQueryData)
             }
         }
     }
@@ -140,13 +132,12 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         binding.sortGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.sort_ascending -> {
-                    launchQueryData.addSortOptionAscending()
+                    filterViewModel.setSortOrder(SortOrder.ASC, launchQueryData)
                 }
                 R.id.sort_descending -> {
-                    launchQueryData.addSortOptionDescending()
+                    filterViewModel.setSortOrder(SortOrder.DESC, launchQueryData)
                 }
             }
-            filterViewModel.setLaunchQueryData(launchQueryData)
         }
     }
 
@@ -154,14 +145,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         binding.onlySuccessfulLaunchesCheckBox.isChecked =
             launchQueryData.isLaunchSuccessful()
         binding.onlySuccessfulLaunchesCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                launchQueryData.addSuccessQuery(isChecked)
-            } else {
-                launchQueryData.removeSuccessQuery()
-            }
-            filterViewModel.setLaunchQueryData(
-                launchQueryData
-            )
+            filterViewModel.onSuccessCheckedChanged(isChecked, launchQueryData)
         }
     }
 

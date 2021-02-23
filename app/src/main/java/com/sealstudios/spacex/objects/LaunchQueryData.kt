@@ -6,8 +6,8 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class LaunchQueryData(
-    var options: Options?,
-    var query: MutableMap<String, @RawValue Any>?
+    val options: Options?,
+    val query: Map<String, @RawValue Any>?
 ) : Parcelable {
 
     companion object {
@@ -27,39 +27,41 @@ data class LaunchQueryData(
         }
 
         fun LaunchQueryData.getFiltersFromQuery(): String? {
-            if (this.query != null){
-                return this.query?.entries?.asSequence()
-                    ?.filter { entry -> entry.key == DATE_UTC }
-                    ?.map { it.value as Map<*, *> }
-                    ?.map { it.values }
-                    ?.flatten()
-                    ?.map { (it as String) }
-                    ?.firstOrNull()
+            if (this.query != null) {
+                return this.query.entries.asSequence()
+                    .filter { entry -> entry.key == DATE_UTC }
+                    .map { it.value as Map<*, *> }
+                    .map { it.values }
+                    .flatten()
+                    .map { (it as String) }
+                    .firstOrNull()
             }
             return null
         }
 
-        fun LaunchQueryData.removeSuccessQuery(){
-            this.removeQuery(SUCCESS)
+        fun LaunchQueryData.removeSuccessQuery(): LaunchQueryData {
+            return this.removeQuery(SUCCESS)
         }
 
-        fun LaunchQueryData.addSuccessQuery(isSuccess: Boolean){
-            this.addQuery(SUCCESS, isSuccess)
+        fun LaunchQueryData.addSuccessQuery(isSuccess: Boolean): LaunchQueryData {
+            return this.addQuery(SUCCESS, isSuccess)
         }
 
-        fun LaunchQueryData.removeDateQuery(){
-            this.removeQuery(DATE_UTC)
+        fun LaunchQueryData.removeDateQuery(): LaunchQueryData {
+            return this.removeQuery(DATE_UTC)
         }
 
-        fun LaunchQueryData.addDateQuery(dateQuery: DateQuery?){
-            dateQuery?.let {
-                this.addQuery(DATE_UTC, it.query)
-            }
+        fun LaunchQueryData.addDateQuery(dateQuery: DateQuery): LaunchQueryData {
+            return this.addQuery(DATE_UTC, dateQuery.query)
         }
 
         private fun LaunchQueryData.removeQuery(key: String): LaunchQueryData {
-            return this.apply {
-                this.query?.keys?.remove(key)
+            this.query ?: return this
+            this.query.let {
+                val queryData: MutableMap<String, Any> = mutableMapOf()
+                queryData.putAll(it)
+                queryData.keys.remove(key)
+                return this.copy(query = queryData)
             }
         }
 
@@ -67,23 +69,20 @@ data class LaunchQueryData(
             key: String,
             value: Any,
         ): LaunchQueryData {
-            var query = this.query
-            if (query != null) {
-                query[key] = value
-            } else {
-                query = mutableMapOf(key to value)
+            val queryData: MutableMap<String, Any> = mutableMapOf()
+            this.query?.let {
+                queryData.putAll(it)
             }
-            return this.apply {
-                this.query = query
-            }
+            queryData[key] = value
+            return this.copy(query = queryData)
         }
 
-        fun LaunchQueryData.addSortOptionAscending(){
-            this.addSortOption(DATE_UTC, ASC)
+        fun LaunchQueryData.addSortOptionAscending(): LaunchQueryData {
+            return this.addSortOption(DATE_UTC, ASC)
         }
 
-        fun LaunchQueryData.addSortOptionDescending(){
-            this.addSortOption(DATE_UTC, DESC)
+        fun LaunchQueryData.addSortOptionDescending(): LaunchQueryData {
+            return this.addSortOption(DATE_UTC, DESC)
         }
 
         private fun LaunchQueryData.addSortOption(
@@ -115,6 +114,6 @@ data class LaunchQueryData(
         const val ROCKET: String = "rocket"
         private const val DESC: String = "desc"
         private const val ASC: String = "asc"
-        private const val SUCCESS: String = "desc"
+        private const val SUCCESS: String = "success"
     }
 }

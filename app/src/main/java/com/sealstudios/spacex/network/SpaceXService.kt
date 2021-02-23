@@ -1,21 +1,24 @@
 package com.sealstudios.spacex.network
 
+import com.sealstudios.spacex.network.Resource
+import com.sealstudios.spacex.network.ResponseHandler
+import com.sealstudios.spacex.network.RetrofitSpaceXService
 import com.sealstudios.spacex.objects.CompanyResponse
-import com.sealstudios.spacex.objects.LaunchQueryData
-import com.sealstudios.spacex.objects.PagedLaunchResponse
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import javax.inject.Inject
 
-interface SpaceXService {
 
-    @GET("company")
-    suspend fun getCompany(): CompanyResponse
+class SpaceXService @Inject constructor(
+    private val retrofitSpaceXService: RetrofitSpaceXService,
+    private val responseHandler: ResponseHandler
+) {
 
-    @POST("launches/query")
-    suspend fun queryLaunches(
-        @Body launchQueryData: LaunchQueryData,
-    ): Response<PagedLaunchResponse>
+    suspend fun getCompanyResponse(): Resource<CompanyResponse> {
+        return try {
+            responseHandler.handleSuccess(retrofitSpaceXService.getCompany())
+        } catch (e: Exception) {
+            responseHandler.handleException(e)
+        }
+    }
 
 }
+

@@ -3,8 +3,8 @@ package com.sealstudios.spacex
 import com.sealstudios.spacex.network.OkHttpClient
 import com.sealstudios.spacex.network.ResponseHandler
 import com.sealstudios.spacex.network.Status
-import com.sealstudios.spacex.repositories.SpaceXRepository
 import com.sealstudios.spacex.network.SpaceXService
+import com.sealstudios.spacex.network.RetrofitSpaceXService
 import kotlinx.coroutines.runBlocking
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockResponse
@@ -16,12 +16,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class SpaceXRepositoryTest {
+class SpaceXServiceTest {
 
     private lateinit var mockWebServer: MockWebServer
     private lateinit var okHttpClient: okhttp3.OkHttpClient
+    private lateinit var retrofitSpaceXService: RetrofitSpaceXService
     private lateinit var spaceXService: SpaceXService
-    private lateinit var spaceXRepository: SpaceXRepository
 
     @Before
     fun setUp() {
@@ -29,14 +29,14 @@ class SpaceXRepositoryTest {
         mockWebServer.start()
         okHttpClient = OkHttpClient(HttpLoggingInterceptor()).getOkHttpClient()
 
-        spaceXService = Retrofit.Builder()
+        retrofitSpaceXService = Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
-            .create(SpaceXService::class.java)
+            .create(RetrofitSpaceXService::class.java)
 
-        spaceXRepository = SpaceXRepository(spaceXService, ResponseHandler())
+        spaceXService = SpaceXService(retrofitSpaceXService, ResponseHandler())
     }
 
     @After
@@ -52,7 +52,7 @@ class SpaceXRepositoryTest {
                     .setResponseCode(200)
                     .setBody("{ \"message\": \"SUCCESS\" }")
             )
-            val response = spaceXRepository.getCompanyResponse()
+            val response = spaceXService.getCompanyResponse()
             assert(response.status == Status.SUCCESS)
         }
     }
@@ -66,7 +66,7 @@ class SpaceXRepositoryTest {
                     .setBody("{ \"message\": \"ERROR\" }")
             )
 
-            val response = spaceXRepository.getCompanyResponse()
+            val response = spaceXService.getCompanyResponse()
             assert(response.status == Status.ERROR)
         }
     }
