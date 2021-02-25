@@ -5,11 +5,17 @@
         <item name="colorOnPrimary">@color/primaryTextColor</item>
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
+
+        <item name="colorPrimaryDark">@color/primaryTextColor</item>
+
         <item name="android:navigationBarColor">
             @color/primaryColor
         </item>
         <item name="android:statusBarColor">
             @color/primaryColor
         </item>
+        <item name="radioButtonStyle">@style/Widget.App.RadioButton</item>
+        <item name="checkboxStyle">@style/Widget.App.CheckBox</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.App.Button.OutlinedButton</item>
     </style>
 </resources>

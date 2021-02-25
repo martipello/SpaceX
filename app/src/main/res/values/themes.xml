@@ -5,6 +5,9 @@
         <item name="colorOnPrimary">@color/primaryTextColor</item>
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
+
+        <item name="colorPrimaryDark">@color/secondaryTextColor</item>
+
         <item name="android:navigationBarColor">
             @color/primaryColor
         </item>

@@ -1,0 +1,46 @@
+<resources>
+
+    <style name="ThemeOverlay.MyTitleText" parent="AppTheme">
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="ThemeOverlay.MyTitleTextBold" parent="AppTheme">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="ThemeOverlay.MySubTitleText" parent="AppTheme">
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="ThemeOverlay.MySubTitleTextBold" parent="AppTheme">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="ThemeOverlay.MyBodyTextBold" parent="AppTheme">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/body_text_size</item>
+        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="ThemeOverlay.MyBodyText" parent="AppTheme">
+        <item name="android:textSize">@dimen/body_text_size</item>
+        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="ThemeOverlay.MySmallBodyText" parent="AppTheme">
+        <item name="android:textSize">@dimen/small_body_text_size</item>
+        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="ThemeOverlay.MyCaptionText" parent="AppTheme">
+        <item name="android:textSize">@dimen/caption_text_size</item>
+        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
+    </style>
+
+</resources>

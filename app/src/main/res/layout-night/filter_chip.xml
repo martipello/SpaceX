@@ -9,7 +9,7 @@
     android:clickable="true"
     android:focusable="true"
     android:text="@string/filter_label"
-    android:textColor="@color/primaryTextColor"
+    android:textColor="@color/secondaryTextColor"
     app:chipBackgroundColor="@color/secondaryColor"
     app:chipStartPadding="@dimen/small_margin_4dp"
     app:layout_constraintStart_toStartOf="parent"

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun getTheme(): Resources.Theme {
         val theme: Resources.Theme = super.getTheme()
-        theme.applyStyle(R.style.Theme_SpaceX, true)
+        theme.applyStyle(R.style.AppTheme, true)
         return theme
     }
 }

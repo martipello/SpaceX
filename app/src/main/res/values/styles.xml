@@ -2,20 +2,20 @@
     <style name="AppTheme" parent="Theme.SpaceX">
     </style>
 
-    <style name="Widget.App.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
-    </style>
-
-    <style name="ThemeOverlay.App.RadioButton" parent="">
-        <item name="colorOnSurface">@color/secondaryColor</item>
-        <item name="colorSecondary">@color/primaryColor</item>
-    </style>
-
     <style name="Widget.App.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
     </style>
 
     <style name="ThemeOverlay.App.CheckBox" parent="">
+        <item name="colorOnSurface">@color/secondaryColor</item>
+        <item name="colorSecondary">@color/primaryColor</item>
+    </style>
+
+    <style name="Widget.App.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlay.App.RadioButton" parent="">
         <item name="colorOnSurface">@color/secondaryColor</item>
         <item name="colorSecondary">@color/primaryColor</item>
     </style>
@@ -30,49 +30,6 @@
 
     <style name="Widget.App.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textAppearance">@style/ThemeOverlay.MyBodyText</item>
-    </style>
-
-    <style name="ThemeOverlay.MyTitleText" parent="AppTheme">
-        <item name="android:textSize">@dimen/title_text_size</item>
-        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
-    </style>
-
-    <style name="ThemeOverlay.MyTitleTextBold" parent="AppTheme">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/title_text_size</item>
-        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
-    </style>
-
-    <style name="ThemeOverlay.MySubTitleText" parent="AppTheme">
-        <item name="android:textSize">@dimen/subtitle_text_size</item>
-        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
-    </style>
-
-    <style name="ThemeOverlay.MySubTitleTextBold" parent="AppTheme">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/subtitle_text_size</item>
-        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
-    </style>
-
-    <style name="ThemeOverlay.MyBodyTextBold" parent="AppTheme">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/body_text_size</item>
-        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
-    </style>
-
-    <style name="ThemeOverlay.MyBodyText" parent="AppTheme">
-        <item name="android:textSize">@dimen/body_text_size</item>
-        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
-    </style>
-
-    <style name="ThemeOverlay.MySmallBodyText" parent="AppTheme">
-        <item name="android:textSize">@dimen/small_body_text_size</item>
-        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
-    </style>
-
-    <style name="ThemeOverlay.MyCaptionText" parent="AppTheme">
-        <item name="android:textSize">@dimen/caption_text_size</item>
-        <item name="android:textColorPrimary">@color/secondaryTextColor</item>
     </style>
 
 </resources>

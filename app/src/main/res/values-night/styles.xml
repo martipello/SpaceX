@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.App.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
+    </style>
+
+    <style name="ThemeOverlay.App.CheckBox" parent="">
+        <item name="colorOnSurface">@color/secondaryDarkColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+    </style>
+
+    <style name="Widget.App.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlay.App.RadioButton" parent="">
+        <item name="colorOnSurface">@color/secondaryDarkColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+    </style>
+
+    <style name="Widget.App.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/ThemeOverlay.MyBodyText</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="progressColor" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorControlActivated">@color/secondaryDarkColor</item>
+    </style>
+
+</resources>
